@@ -28,10 +28,10 @@ for i = 1:nPoints
       X(i) = (chord/2) * (1-cos(pi*(i-1)/nPanels));
     end
     % Calculate Z using NACA equations for a cambered 4-digit airfoil
-    if (X(i) <= maxCamberPos)
-        Z(i) = (maxCamber/maxCamberPos^2)*(2*maxCamberPos*(X(i))-(X(i))^2);
+    if (X(i) <= maxCamberPos*chord)
+        Z(i) = (maxCamber/maxCamberPos^2)*(2*maxCamberPos*(X(i)/chord)-(X(i)/chord)^2);
     else
-        Z(i) = (maxCamber/(1-maxCamberPos)^2)*(1-2*maxCamberPos+2*maxCamberPos*(X(i))-(X(i))^2);
+        Z(i) = (maxCamber/(1-maxCamberPos)^2)*(1-2*maxCamberPos+2*maxCamberPos*(X(i)/chord)-(X(i)/chord)^2);
     end
     % Rotate by flapAngle degrees if this panel is part of the flap
     if (X(i) >= flapPosition)
