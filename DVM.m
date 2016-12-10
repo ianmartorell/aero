@@ -1,6 +1,6 @@
 function circulation = DVM(camberLine, freestreamVelocity, angleOfAttack)
 
-nPanels = size(camberLine, 1);
+nPanels = size(camberLine, 2) - 1;
 vortices = zeros(2, nPanels);
 controlPoints = zeros(2, nPanels);
 
