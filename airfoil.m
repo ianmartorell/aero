@@ -17,13 +17,13 @@ nPoints = nPanels + 1;
 X = zeros(nPoints, 1);
 Z = zeros(nPoints, 1);
 
-if distribution != 'fullCosine'
+if ~strcmp(distribution, 'fullCosine')
     % distribute control points linearly
     X = linspace(0, chord, nPoints);
 end
 
 for i = 1:nPoints
-    if distribution == 'fullCosine'
+    if strcmp(distribution, 'fullCosine')
       % Calculate X according to the number of panels
       X(i) = (chord/2) * (1-cos(pi*(i-1)/nPanels));
     end
