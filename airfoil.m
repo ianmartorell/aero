@@ -1,21 +1,21 @@
-function [X, Z] = airfoil(nPanels, chord, NACA, flapPosition, flapAngle, distribution)
+function camberLine = airfoil(chord, NACA, flapPosition, flapAngle, nPanels, distribution)
 % AIRFOIL  Define the camber line of an airfoil with an optional flap
 %
-%   airfoil(M, c, NACA, flapPosition, flapAngle, isFullCosine)
+%   airfoil(chord, NACA, flapPosition, flapAngle, nPanels, distribution)
 %
-%   nPanels: number of panels
 %   chord: chord length
 %   NACA: NACA 4-digit designation
 %   flapPosition: flap position as a fraction of the chord, use 1 for no flap
 %   flapAngle: flap angle in degrees
+%   nPanels: number of panels
 %   distribution: panel distribution along the X axis, can be `linear` or `fullCosine`, defaults to `linear`
 
 maxCamber = str2double(NACA(1))/10;
 maxCamberPos = str2double(NACA(2))/10;
 nPoints = nPanels + 1;
 
-X = zeros(nPoints, 1);
-Z = zeros(nPoints, 1);
+X = zeros(nPoints);
+Z = zeros(nPoints);
 
 if ~strcmp(distribution, 'fullCosine')
     % distribute control points linearly
@@ -35,6 +35,8 @@ for i = 1:nPoints
     end
     % Rotate by flapAngle degrees if this panel is part of the flap
     if (X(i) >= flapPosition)
-        Z(i) = Z(i) - tand(flapAngle) * (X(i)-flapPosition);
+        Z(i) = Z(i) - tand(flapAngle) * (X(i) - flapPosition);
     end
 end
+
+camberLine = [X; Z];

@@ -1,72 +1,60 @@
-function gamma = DVM(X, Z, u, alpha, M)
-% Buscamos control point y punto aplicación torbellino
-xcp = ones(M,1);
-zcp = ones(M,1);
-xt = ones(M,1);
-zt = ones(M,1);
-theta = zeros(M,1);
-lpanel = zeros(M,1);
+function circulation = DVM(camberLine, freestreamVelocity, angleOfAttack, nPanels)
 
-for i = 1:M
-    theta(i) = atand((Z(i+1)-Z(i))/(X(i+1)-X(i)));
-    lpanel(i) = sqrt((X(i+1)-X(i))^2 + (Z(i+1)-Z(i))^2);
+panelAngles = zeros(nPanels, 1);
+panelLengths = zeros(nPanels, 1);
 
-    % Incrementos de (i) de `x` y `z` dados por hipotenusa y theta del panel
-    % para encontrar punto aplicaci�n de los otros torbellinos
-    xcp(i) = X(i) + 0.75*lpanel(i)*(cos(theta(i)));
-    zcp(i) = Z(i) + 0.75*lpanel(i)*(sin(theta(i)));
-    % Incrementos de (i) de `x` y `z` dados por hipotenusa y theta del panel
-    % para encontrar punto aplicaci�n del torbellino de ese panel
-    xt(i) = X(i) + 0.25*lpanel(i)*(cos(theta(i)));
-    zt(i) = Z(i) + 0.25*lpanel(i)*(sin(theta(i)));
+vortices = zeros(2, nPanels);
+controlPoints = zeros(2, nPanels);
+
+for i = 1:nPanels
+    panelAngles(i) = atand((camberLine(2, i+1) - camberLine(2, i)) / (camberLine(1, i+1) - camberLine(1, i)));
+    panelLengths(i) = sqrt((camberLine(1, i+1) - camberLine(1, i))^2 + (camberLine(2, i+1) - camberLine(2, i))^2);
+    vortices(1, i) = camberLine(1, i) + 0.25*panelLengths(i)*(cos(panelAngles(i)));
+    vortices(2, i) = camberLine(2, i) + 0.25*panelLengths(i)*(sin(panelAngles(i)));
+    controlPoints(1, i) = camberLine(1, i) + 0.75*panelLengths(i)*(cos(panelAngles(i)));
+    controlPoints(2, i) = camberLine(2, i) + 0.75*panelLengths(i)*(sin(panelAngles(i)));
 end
 
-vecpanelx = ones(M,1);
-vecpanelz = ones(M,1);
-vecpanelxp = ones(M,1);
-vecpanelzp = ones(M,1);
-nperpx = ones(M,1);
-nperpz = ones(M,1);
+influenceCoefficients = zeros(nPanels, nPanels);
+RHS = zeros(nPanels, 1);
 
-%Buscamos velocidades inducidas
+for i = 1:nPanels
+		% Find the unit normal vector at this control point
+		d = zeros(2, 1);
+    d(1) = (camberLine(1, i+1) - (camberLine(1, i)));
+    d(2) = (camberLine(2, i+1) - (camberLine(2, i)));
+		unitTangentVector = zeros(2, 1);
+    unitTangentVector(1) = d(1) / sqrt(d(1)^2 + d(2)^2);
+		unitTangentVector(2) = d(2) / sqrt(d(1)^2 + d(2)^2);
+		unitNormalVector = zeros(2, 1);
+		unitNormalVector(1) = - unitTangentVector(2);
+		unitNormalVector(2) = unitTangentVector(1);
 
-Vecpanelx = ones(M,1);
-Vecpanelz = ones(M,1);
-R = ones(M,M);
-v = ones(M,M);
-w = ones(M,M);
-LHS = ones(M,M);
-RHS = zeros(M,1);
-
-for i = 1:M
-    % Para cada vector panel, se necesitar� la componente
-    % normal a este para calcular la velocidad inducida
-    % por Vinf y que nos dará la RHSmatrix.
-    vecpanelxp(i) = (X(i+1)-(X(i)));
-    vecpanelzp(i) = (Z(i+1)-(Z(i)));
-    vecpanelx(i)=vecpanelxp(i)/sqrt((vecpanelxp(i)^2)+(vecpanelzp(i)^2));
-    vecpanelz(i)=vecpanelzp(i)/sqrt((vecpanelxp(i)^2)+(vecpanelzp(i)^2));
-    nperpx(i)=-vecpanelz(i);
-    nperpz(i)=vecpanelx(i);
-
-    for j = 1:M
-        % Para calcular las velocidades inducidas en los paneles 'i'
-        % se necesitan los incrementos de 'x' y 'z' debidos a los
-        % vértices de los paneles 'j'.
-        Vecpanelx(i,j) = (-(xt(j))+xcp(i));
-        Vecpanelz(i,j) = (-(zt(j))+zcp(i));
-
-        R(i,j) = sqrt ((Vecpanelx(i,j))^2 + (Vecpanelz(i,j))^2);
-        v(i,j) = ((1/(2*pi))*((Vecpanelz(i,j))/(R(i,j))^2)); % Velocidades inducidas eje x.
-        w(i,j) = (-(1/(2*pi))*((Vecpanelx(i,j))/(R(i,j))^2)); % Velocidades inducidas eje z.
-        LHS(i,j) = (v(i,j)*nperpx(i)) + (w(i,j)*nperpz(i)); % Montamos matriz Vind para cada j.
+    for j = 1:nPanels
+				% Compute the induced velocity at i due to a lumped vortex at j
+        d(1) = controlPoints(1, i) - vortices(1, j);
+        d(2) = controlPoints(2, i) - vortices(2, j);
+        r = sqrt(d(1)^2 + d(2)^2);
+				inducedVelocity = zeros(2, 1);
+        inducedVelocity(1) = 1/(2*pi) * d(2)/r^2;
+        inducedVelocity(2) = -1/(2*pi) * d(1)/(r)^2;
+				% Compute the influence coefficients
+        influenceCoefficients(i, j) = inducedVelocity(1) * unitNormalVector(1) + inducedVelocity(2) * unitNormalVector(2);
     end
-    RHS(i) = (-u)*((cosd(alpha)*nperpx(i)) + (sind(alpha)*nperpz(i))); %Montamos matriz de Vinf inducida p/c panel
+    RHS(i) = -freestreamVelocity * ((cosd(angleOfAttack) * unitNormalVector(1)) + (sind(angleOfAttack) * unitNormalVector(2)));
 end
 
-disp(xcp);
-disp(xt);
-disp(theta);
-disp(LHS);
-gamma = LHS\RHS;
+disp('panelLengths:');
+disp(panelLengths);
+disp('controlPoints:');
+disp(controlPoints);
+disp('vortices:');
+disp(vortices);
+disp('panelAngles:');
+disp(panelAngles);
+disp('influenceCoefficients:');
+disp(influenceCoefficients);
+disp('RHS:');
 disp(RHS);
+
+circulation = influenceCoefficients\RHS;
