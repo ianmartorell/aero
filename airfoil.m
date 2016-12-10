@@ -1,4 +1,4 @@
-function [X, Z] = airfoil(nPanels, chord, NACA, flapPosition, flapAngle, isFullCosine)
+function [X, Z] = airfoil(nPanels, chord, NACA, flapPosition, flapAngle, distribution)
 % AIRFOIL  Define the camber line of an airfoil with an optional flap
 %
 %   airfoil(M, c, NACA, flapPosition, flapAngle, isFullCosine)
@@ -8,24 +8,24 @@ function [X, Z] = airfoil(nPanels, chord, NACA, flapPosition, flapAngle, isFullC
 %   NACA: NACA 4-digit designation
 %   flapPosition: flap position as a fraction of the chord, use 1 for no flap
 %   flapAngle: flap angle in degrees
-%   isFullCosine: wether to use a full cosine or a linear distribution
+%   distribution: panel distribution along the X axis, can be `linear` or `fullCosine`, defaults to `linear`
 
 maxCamber = str2double(NACA(1))/10;
 maxCamberPos = str2double(NACA(2))/10;
-nPoints = nPanels + 1; % number of control points
+nPoints = nPanels + 1;
 
 X = zeros(nPoints, 1);
 Z = zeros(nPoints, 1);
 
-if ~isFullCosine
+if distribution != 'fullCosine'
     % distribute control points linearly
     X = linspace(0, chord, nPoints);
 end
 
 for i = 1:nPoints
-    if isFullCosine
+    if distribution == 'fullCosine'
       % Calculate X according to the number of panels
-      X(i) = (c/2) * (1-cos((i-1)*pi/(M)));
+      X(i) = (chord/2) * (1-cos(pi*(i-1)/nPanels));
     end
     % Calculate Z using NACA equations for a cambered 4-digit airfoil
     if (X(i) <= maxCamberPos)
