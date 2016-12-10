@@ -1,18 +1,15 @@
 function circulation = DVM(camberLine, freestreamVelocity, angleOfAttack, nPanels)
 
-panelAngles = zeros(nPanels, 1);
-panelLengths = zeros(nPanels, 1);
-
 vortices = zeros(2, nPanels);
 controlPoints = zeros(2, nPanels);
 
 for i = 1:nPanels
-    panelAngles(i) = atand((camberLine(2, i+1) - camberLine(2, i)) / (camberLine(1, i+1) - camberLine(1, i)));
-    panelLengths(i) = sqrt((camberLine(1, i+1) - camberLine(1, i))^2 + (camberLine(2, i+1) - camberLine(2, i))^2);
-    vortices(1, i) = camberLine(1, i) + 0.25*panelLengths(i)*(cos(panelAngles(i)));
-    vortices(2, i) = camberLine(2, i) + 0.25*panelLengths(i)*(sin(panelAngles(i)));
-    controlPoints(1, i) = camberLine(1, i) + 0.75*panelLengths(i)*(cos(panelAngles(i)));
-    controlPoints(2, i) = camberLine(2, i) + 0.75*panelLengths(i)*(sin(panelAngles(i)));
+    length = sqrt((camberLine(1, i+1) - camberLine(1, i))^2 + (camberLine(2, i+1) - camberLine(2, i))^2);
+    angle = atand((camberLine(2, i+1) - camberLine(2, i)) / (camberLine(1, i+1) - camberLine(1, i)));
+    vortices(1, i) = camberLine(1, i) + 0.25*length*(cos(angle));
+    vortices(2, i) = camberLine(2, i) + 0.25*length*(sin(angle));
+    controlPoints(1, i) = camberLine(1, i) + 0.75*length*(cos(angle));
+    controlPoints(2, i) = camberLine(2, i) + 0.75*length*(sin(angle));
 end
 
 influenceCoefficients = zeros(nPanels, nPanels);
@@ -29,7 +26,6 @@ for i = 1:nPanels
 		unitNormalVector = zeros(2, 1);
 		unitNormalVector(1) = - unitTangentVector(2);
 		unitNormalVector(2) = unitTangentVector(1);
-
     for j = 1:nPanels
 				% Compute the induced velocity at i due to a lumped vortex at j
         d(1) = controlPoints(1, i) - vortices(1, j);
@@ -43,18 +39,5 @@ for i = 1:nPanels
     end
     RHS(i) = -freestreamVelocity * ((cosd(angleOfAttack) * unitNormalVector(1)) + (sind(angleOfAttack) * unitNormalVector(2)));
 end
-
-disp('panelLengths:');
-disp(panelLengths);
-disp('controlPoints:');
-disp(controlPoints);
-disp('vortices:');
-disp(vortices);
-disp('panelAngles:');
-disp(panelAngles);
-disp('influenceCoefficients:');
-disp(influenceCoefficients);
-disp('RHS:');
-disp(RHS);
 
 circulation = influenceCoefficients\RHS;
