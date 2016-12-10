@@ -6,10 +6,10 @@ controlPoints = zeros(2, nPanels);
 for i = 1:nPanels
     length = sqrt((camberLine(1, i+1) - camberLine(1, i))^2 + (camberLine(2, i+1) - camberLine(2, i))^2);
     angle = atand((camberLine(2, i+1) - camberLine(2, i)) / (camberLine(1, i+1) - camberLine(1, i)));
-    vortices(1, i) = camberLine(1, i) + 0.25*length*(cos(angle));
-    vortices(2, i) = camberLine(2, i) + 0.25*length*(sin(angle));
-    controlPoints(1, i) = camberLine(1, i) + 0.75*length*(cos(angle));
-    controlPoints(2, i) = camberLine(2, i) + 0.75*length*(sin(angle));
+    vortices(1, i) = camberLine(1, i) + 0.25*length*(cosd(angle));
+    vortices(2, i) = camberLine(2, i) + 0.25*length*(sind(angle));
+    controlPoints(1, i) = camberLine(1, i) + 0.75*length*(cosd(angle));
+    controlPoints(2, i) = camberLine(2, i) + 0.75*length*(sind(angle));
 end
 
 influenceCoefficients = zeros(nPanels, nPanels);
