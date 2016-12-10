@@ -1,4 +1,4 @@
-[X , Z] = airfoil(5, 1, '0112', 0.8, 0, 'linear');
+[X , Z] = airfoil(100, 1, '2212', 0.8, 5, 'linear');
 plot(X, Z);
 axis equal;
 gamma = DVM(X, Z, 1, 5, 5);
