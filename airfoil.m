@@ -1,10 +1,10 @@
-function camberLine = airfoil(chord, NACA, flapPosition, flapAngle, nPanels, distribution)
+function camberLine = airfoil(NACA, chord, flapPosition, flapAngle, nPanels, distribution)
 % AIRFOIL  Define the camber line of an airfoil with an optional flap
 %
-%   airfoil(chord, NACA, flapPosition, flapAngle, nPanels, distribution)
+%   airfoil(NACA, chord, flapPosition, flapAngle, nPanels, distribution)
 %
-%   chord: chord length
 %   NACA: NACA 4-digit designation
+%   chord: chord length
 %   flapPosition: flap position as a fraction of the chord, use 1 for no flap
 %   flapAngle: flap angle in degrees
 %   nPanels: number of panels
