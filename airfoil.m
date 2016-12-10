@@ -14,8 +14,8 @@ maxCamber = str2double(NACA(1))/10;
 maxCamberPos = str2double(NACA(2))/10;
 nPoints = nPanels + 1;
 
-X = zeros(nPoints);
-Z = zeros(nPoints);
+X = zeros(1, nPoints);
+Z = zeros(1, nPoints);
 
 if ~strcmp(distribution, 'fullCosine')
     % distribute control points linearly
