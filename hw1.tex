@@ -1,0 +1,58 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{fontspec}
+\usepackage{textcomp}
+\usepackage{csquotes}
+\usepackage{authblk}
+\usepackage{float}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13}
+
+\marginparwidth 0.5in
+\oddsidemargin 0.25in
+\evensidemargin 0.25in
+\marginparsep 0.25in
+\topmargin 0.25in
+\textwidth 6in \textheight 8 in
+\linespread{1.2}
+
+\makeatletter
+\def\@maketitle{
+  \newpage
+  \null
+  \vskip 2em
+  \begin{center}
+  \let \footnote \thanks
+    {\Large\bfseries \@title \par}
+    \vskip 1.5em
+    {\normalsize
+      \lineskip .5em
+      \begin{tabular}[t]{c}
+        \@author
+      \end{tabular}\par}
+    \vskip 1em%
+    {\normalsize \@date}
+  \end{center}
+  \par
+  \vskip 1.5em}
+\makeatother
+
+\begin{document}
+\author{Isaac Gibert}
+\author{Ian Martorell}
+\author{Sara Piñeiro}
+\author{Esteban Ruiz}
+\author{Eduard Sulé}
+\affil{220024 - Aerodynamics, UPC ESEIAAT}
+\title{Homework 1: Discrete Vortex Method}
+\date{Dated: December 2016}
+\maketitle
+
+\section{Introduction}
+
+\section{Verification Assessment}
+
+\section{Validation Assessment}
+
+\section{Discussion}
+
+\end{document}
