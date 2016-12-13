@@ -1,4 +1,4 @@
-function [ Cl, CmLE ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack)
+function [ circulation, cl, cmLE ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack)
 
 nPanels = size(camberLine, 2) - 1;
 vortices = zeros(2, nPanels);
@@ -42,11 +42,11 @@ for i = 1:nPanels
 end
 circulation = influenceCoefficients\RHS;
 % Compute the lift coefficients
-ClArray = (2 / chord * freestreamVelocity) * circulation;
-Cl = sum(ClArray);
+clArray = (2 / chord * freestreamVelocity) * circulation;
+cl = sum(clArray);
 % Compute the moment coefficient about the leading edge
-CmLEArray = zeros(nPanels, 1);
+cmLEArray = zeros(nPanels, 1);
 for i = 1:nPanels
-    CmLEArray(i) = -2 / freestreamVelocity / chord^2 * circulation(i) * vortices(1, i) * cosd(angleOfAttack);
+    cmLEArray(i) = -2 / freestreamVelocity / chord^2 * circulation(i) * vortices(1, i) * cosd(angleOfAttack);
 end
-CmLE = sum(CmLEArray);
+cmLE = sum(cmLEArray);
