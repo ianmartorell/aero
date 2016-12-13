@@ -10,13 +10,13 @@ function camberLine = airfoil(NACA, chord, flapPosition, flapAngle, nPanels, dis
 %   nPanels: number of panels
 %   distribution: panel distribution along the X axis, can be `linear` or `fullCosine`, defaults to `linear`
 
+% Parse input data
 maxCamber = str2double(NACA(1))/10;
 maxCamberPos = str2double(NACA(2))/10;
 nPoints = nPanels + 1;
-
+% Prepare the result vectors
 X = zeros(1, nPoints);
 Z = zeros(1, nPoints);
-
 if ~strcmp(distribution, 'fullCosine')
     % distribute control points linearly
     X = linspace(0, chord, nPoints);

@@ -1,9 +1,10 @@
-function [ CL, CM ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack)
+function [ Cl, CmLE ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack)
 
 nPanels = size(camberLine, 2) - 1;
 vortices = zeros(2, nPanels);
 controlPoints = zeros(2, nPanels);
-
+% We need to at least compute the vortices' positions beforehand,
+% or not all of them be defined in the inner loop
 for i = 1:nPanels
     length = sqrt((camberLine(1, i+1) - camberLine(1, i))^2 + (camberLine(2, i+1) - camberLine(2, i))^2);
     angle = atand((camberLine(2, i+1) - camberLine(2, i)) / (camberLine(1, i+1) - camberLine(1, i)));
@@ -12,10 +13,9 @@ for i = 1:nPanels
     controlPoints(1, i) = camberLine(1, i) + 0.75*length*(cosd(angle));
     controlPoints(2, i) = camberLine(2, i) + 0.75*length*(sind(angle));
 end
-
+% We can now calculate the circulation
 influenceCoefficients = zeros(nPanels, nPanels);
 RHS = zeros(nPanels, 1);
-
 for i = 1:nPanels
     % Find the unit normal vector at this control point
     d = zeros(2, 1);
@@ -40,16 +40,13 @@ for i = 1:nPanels
     end
     RHS(i) = -freestreamVelocity * ((cosd(angleOfAttack) * unitNormalVector(1)) + (sind(angleOfAttack) * unitNormalVector(2)));
 end
-
 circulation = influenceCoefficients\RHS;
-
 % Compute the lift coefficients
-Cl = (2 / chord * freestreamVelocity) * circulation;
-CL = sum(Cl);
-
-% Compute the moment coefficient
-Cm = zeros(nPanels, 1);
+ClArray = (2 / chord * freestreamVelocity) * circulation;
+Cl = sum(ClArray);
+% Compute the moment coefficient about the leading edge
+CmLEArray = zeros(nPanels, 1);
 for i = 1:nPanels
-    Cm(i) = -2 / freestreamVelocity / chord^2 * circulation(i) * vortices(1, i) * cosd(angleOfAttack);
+    CmLEArray(i) = -2 / freestreamVelocity / chord^2 * circulation(i) * vortices(1, i) * cosd(angleOfAttack);
 end
-CM = sum(Cm);
+CmLE = sum(CmLEArray);

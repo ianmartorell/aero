@@ -6,18 +6,18 @@ flapPosition = 0.8;
 flapAngle = 5;
 distribution = "fullCosine";
 
-CLArray = [];
-CMArray = [];
+ClArray = [];
+CmLEArray = [];
 nPanels = [];
 
 iPanels = 4;
 while (iPanels < 256)
   camberLine = airfoil(NACA, chord, flapPosition, flapAngle, iPanels, distribution);
-  [ CL, CM ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack);
-  CLArray = [ CLArray CL ];
-  CMArray = [ CMArray CM ];
+  [ Cl, CmLE ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack);
+  ClArray = [ ClArray Cl ];
+  CmLEArray = [ CmLEArray CmLE ];
   nPanels = [ nPanels iPanels ];
   iPanels = iPanels * 2;
 end
 
-plotyy(nPanels, CLArray, nPanels, CMArray);
+plotyy(nPanels, ClArray, nPanels, CmLEArray);
