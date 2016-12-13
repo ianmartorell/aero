@@ -1,8 +1,23 @@
-camberLine = airfoil('2212', 1, 0.8, 5, 100, 'linear');
-plot(camberLine(1), camberLine(2));
-axis equal;
-circulation = DVM(camberLine, 1, 5);
-Cl = (2/1*1)*circulation;
-CL = sum(Cl);
-disp('CL');
-disp(CL);
+NACA = '2212';
+chord = 1;
+freestreamVelocity = 1;
+angleOfAttack = 5;
+flapPosition = 0.8;
+flapAngle = 5;
+distribution = "fullCosine";
+
+CLArray = [];
+CMArray = [];
+nPanels = [];
+
+iPanels = 4;
+while (iPanels < 256)
+  camberLine = airfoil(NACA, chord, flapPosition, flapAngle, iPanels, distribution);
+  [ CL, CM ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack);
+  CLArray = [ CLArray CL ];
+  CMArray = [ CMArray CM ];
+  nPanels = [ nPanels iPanels ];
+  iPanels = iPanels * 2;
+end
+
+plotyy(nPanels, CLArray, nPanels, CMArray);

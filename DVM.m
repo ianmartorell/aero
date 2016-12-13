@@ -1,4 +1,4 @@
-function circulation = DVM(camberLine, freestreamVelocity, angleOfAttack)
+function [ CL, CM ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack)
 
 nPanels = size(camberLine, 2) - 1;
 vortices = zeros(2, nPanels);
@@ -42,3 +42,14 @@ for i = 1:nPanels
 end
 
 circulation = influenceCoefficients\RHS;
+
+% Compute the lift coefficients
+Cl = (2 / chord * freestreamVelocity) * circulation;
+CL = sum(Cl);
+
+% Compute the moment coefficient
+Cm = zeros(nPanels, 1);
+for i = 1:nPanels
+    Cm(i) = -2 / freestreamVelocity / chord^2 * circulation(i) * vortices(1, i) * cosd(angleOfAttack);
+end
+CM = sum(Cm);
