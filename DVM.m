@@ -42,7 +42,7 @@ for i = 1:nPanels
 end
 circulation = influenceCoefficients\RHS;
 % Compute the lift coefficients
-clArray = (2 / chord * freestreamVelocity) * circulation;
+clArray = 2 / chord / freestreamVelocity * circulation;
 cl = sum(clArray);
 % Compute the moment coefficient about the leading edge
 cmLEArray = zeros(nPanels, 1);
