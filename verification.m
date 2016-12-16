@@ -3,7 +3,7 @@ freestreamVelocity = 1;
 angleOfAttack = 4;
 flapPosition = 1;
 flapAngle = 0;
-distribution = 'linear';
+distribution = 'fullCosine';
 
 clArray = [];
 cmLEArray = [];
