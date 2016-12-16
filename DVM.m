@@ -13,6 +13,7 @@ for i = 1:nPanels
     controlPoints(1, i) = camberLine(1, i) + 0.75*length*(cosd(angle));
     controlPoints(2, i) = camberLine(2, i) + 0.75*length*(sind(angle));
 end
+
 % We can now calculate the circulation
 influenceCoefficients = zeros(nPanels, nPanels);
 RHS = zeros(nPanels, 1);
@@ -28,7 +29,7 @@ for i = 1:nPanels
     unitNormalVector(1) = - unitTangentVector(2);
     unitNormalVector(2) = unitTangentVector(1);
     for j = 1:nPanels
-        % Compute the induced velocity at i due to a lumped vortex at j
+        % Compute the induced velocity at i due to a lumped tortex at j
         d(1) = controlPoints(1, i) - vortices(1, j);
         d(2) = controlPoints(2, i) - vortices(2, j);
         r = sqrt(d(1)^2 + d(2)^2);
