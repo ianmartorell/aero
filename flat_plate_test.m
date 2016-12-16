@@ -1,5 +1,4 @@
 NACA = '0112';
-chord = 1;
 freestreamVelocity = 1;
 angleOfAttack = 5;
 flapPosition = 1;
@@ -8,8 +7,8 @@ nPanels = 5;
 distribution = 'linear';
 circulationExample = [2.46094; 1.09375; 0.70312; 0.46875; 0.27344];
 
-camberLine = airfoil(NACA, chord, flapPosition, flapAngle, nPanels, distribution);
-[ circulation ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack);
+camberLine = airfoil(NACA, flapPosition, flapAngle, nPanels, distribution);
+[ circulation ] = DVM(camberLine, freestreamVelocity, angleOfAttack);
 circulation = circulation/sind(5)*5/pi;
 disp('Γ/(π*∆c*U*sin(a))=');
 disp(circulation);

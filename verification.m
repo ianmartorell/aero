@@ -1,9 +1,8 @@
-NACA = '2212';
-chord = 1;
+NACA = '2112';
 freestreamVelocity = 1;
 angleOfAttack = 4;
 flapPosition = 1;
-flapAngle = 5;
+flapAngle = 0;
 distribution = "fullCosine";
 
 clArray = [];
@@ -12,14 +11,14 @@ nPanels = [];
 
 iPanels = 4;
 while (iPanels < 256)
-  camberLine = airfoil(NACA, chord, flapPosition, flapAngle, iPanels, distribution);
-  [ circulation, cl, cmLE ] = DVM(camberLine, chord, freestreamVelocity, angleOfAttack);
+  camberLine = airfoil(NACA, flapPosition, flapAngle, iPanels, distribution);
+  [ circulation, cl, cmLE ] = DVM(camberLine, freestreamVelocity, angleOfAttack);
   clArray = [ clArray cl ];
   cmLEArray = [ cmLEArray cmLE ];
   nPanels = [ nPanels iPanels ];
   iPanels = iPanels * 2;
 end
 
-% disp(clArray);
-% disp(cmLEArray);
-plotyy(nPanels, clArray, nPanels, cmLEArray);
+disp(clArray);
+disp(cmLEArray);
+% plotyy(nPanels, clArray, nPanels, cmLEArray);
