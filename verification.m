@@ -1,4 +1,4 @@
-NACA = '2112';
+NACA = '2212';
 freestreamVelocity = 1;
 angleOfAttack = 4;
 flapPosition = 1;
