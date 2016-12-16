@@ -1,39 +1,18 @@
 function [ circulation, cl, cmLE ] = DVM(camberLine, freestreamVelocity, angleOfAttack)
 
-disp('camberLine(1):')
-disp(camberLine(1, 1:5));
-
 nPanels = size(camberLine, 2) - 1;
 vortices = zeros(2, nPanels);
 controlPoints = zeros(2, nPanels);
 % We need to at least compute the vortices' positions beforehand,
 % or not all of them be defined in the inner loop
 for i = 1:nPanels
-    % length = sqrt((camberLine(1, i+1) - camberLine(1, i))^2 + (camberLine(2, i+1) - camberLine(2, i))^2);
-    % angle = atand((camberLine(2, i+1) - camberLine(2, i)) / (camberLine(1, i+1) - camberLine(1, i)));
-    % vortices(1, i) = camberLine(1, i) + 0.25*length*(cosd(angle));
-    % vortices(2, i) = camberLine(2, i) + 0.25*length*(sind(angle));
-    % controlPoints(1, i) = camberLine(1, i) + 0.75*length*(cosd(angle));
-    % controlPoints(2, i) = camberLine(2, i) + 0.75*length*(sind(angle));
-
-		pendent = (camberLine(2, i+1) - camberLine(2, i)) / (camberLine(1, i+1) - camberLine(1, i));
-		n = camberLine(2, i) - pendent * camberLine(1, i);
-
-    vortices(1, i) = camberLine(1, i) + (camberLine(1, i+1)-camberLine(1, i))*0.25;
-		vortices(2, i) = pendent * vortices(1, i) + n;
-    controlPoints(1, i) = camberLine(1, i) + (camberLine(1, i+1)-camberLine(1, i))*0.75;
-		controlPoints(2, i) = pendent * controlPoints(1, i) + n;
+    length = sqrt((camberLine(1, i+1) - camberLine(1, i))^2 + (camberLine(2, i+1) - camberLine(2, i))^2);
+    angle = atand((camberLine(2, i+1) - camberLine(2, i)) / (camberLine(1, i+1) - camberLine(1, i)));
+    vortices(1, i) = camberLine(1, i) + 0.25*length*(cosd(angle));
+    vortices(2, i) = camberLine(2, i) + 0.25*length*(sind(angle));
+    controlPoints(1, i) = camberLine(1, i) + 0.75*length*(cosd(angle));
+    controlPoints(2, i) = camberLine(2, i) + 0.75*length*(sind(angle));
 end
-
-disp('vortices(1):');
-disp(vortices(1,1:4));
-disp('vortices(2):');
-disp(vortices(2,1:4));
-
-disp('controlPoints(1):');
-disp(controlPoints(1,1:4));
-disp('controlPoints(2):');
-disp(controlPoints(2,1:4));
 
 % We can now calculate the circulation
 influenceCoefficients = zeros(nPanels, nPanels);
@@ -57,12 +36,6 @@ for i = 1:nPanels
         inducedVelocity = zeros(2, 1);
         inducedVelocity(1) = 1/(2*pi) * d(2)/r^2;
         inducedVelocity(2) = -1/(2*pi) * d(1)/(r)^2;
-				
-				if (i == 1 && j < 5)
-					disp('inducedVelocity(1):');
-					disp(inducedVelocity(1));
-				end
-
         % Compute the influence coefficients
         influenceCoefficients(i, j) = inducedVelocity(1) * unitNormalVector(1) + inducedVelocity(2) * unitNormalVector(2);
     end
