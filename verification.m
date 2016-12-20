@@ -1,24 +1,4 @@
-NACA = '2212';
-freestreamVelocity = 1;
-angleOfAttack = 4;
-flapPosition = 1;
-flapAngle = 0;
-distribution = 'fullCosine';
+[ clLinear, clErrorLinear, cmLELinear, nPanels ] = verification_helper('linear');
+[ clFullCosine, clErrorFullCosine, cmLEFullCosine, nPanels ] = verification_helper('fullCosine');
 
-clArray = [];
-cmLEArray = [];
-nPanels = [];
-
-iPanels = 4;
-while (iPanels < 256)
-  camberLine = airfoil(NACA, flapPosition, flapAngle, iPanels, distribution);
-  [ circulation, cl, cmLE ] = DVM(camberLine, freestreamVelocity, angleOfAttack);
-  clArray = [ clArray cl ];
-  cmLEArray = [ cmLEArray cmLE ];
-  nPanels = [ nPanels iPanels ];
-  iPanels = iPanels * 2;
-end
-
-disp(clArray);
-disp(cmLEArray);
-% plotyy(nPanels, clArray, nPanels, cmLEArray);
+csvwrite('data/cl_convergence.csv', [ nPanels clLinear clFullCosine clErrorLinear clErrorFullCosine ]);

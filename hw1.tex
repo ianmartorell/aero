@@ -1,10 +1,15 @@
-\documentclass[11pt, a4paper]{article}
+\documentclass[10pt, a4paper]{article}
 \usepackage{fontspec}
 \usepackage{textcomp}
 \usepackage{csquotes}
 \usepackage{authblk}
 \usepackage{float}
 \usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{graphicx}
+\usepackage{gensymb}
+\usepackage{listings}
+\usepackage{color}
 \pgfplotsset{compat=1.13}
 
 \marginparwidth 0.5in
@@ -13,7 +18,9 @@
 \marginparsep 0.25in
 \topmargin 0.25in
 \textwidth 6in \textheight 8 in
-\linespread{1.2}
+\linespread{1}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
 
 \makeatletter
 \def\@maketitle{
@@ -36,6 +43,34 @@
   \vskip 1.5em}
 \makeatother
 
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{olive},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{gray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{purple},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
 \begin{document}
 \author{Isaac Gibert}
 \author{Ian Martorell}
@@ -47,40 +82,491 @@
 \date{Dated: December 2016}
 \maketitle
 
-\section{Introduction}
+\section{Verificación}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Para poder verificar la solución DVM utilizaremos la teoría de perfiles delgados para calcular los valores de referencia exactos para un perfil NACA 2212 con un ángulo de ataque igual a 4\textdegree .
 
-\begin{table}[h!]
-  \centering
-  \label{tab:table1}
-  \begin{tabular}{ | c | c | c | c | }
-    \hline
-    Ensayo & Material & Velocidad ($mm·min^{-1}$) & Temperatura (\textdegree C)\\
-    \hline
-    1 & PS & 10 & 20 \textdegree C\\
-    \hline
-    2 & PP & 20 & 20 \textdegree C\\
-    \hline
-    3 & PS & 200 & 20 \textdegree C\\
-    \hline
-    3 & PP & 200 & 20 \textdegree C\\
-    \hline
-    4 & PP & 20 & 0 \textdegree C\\
-    \hline
-  \end{tabular}
-\end{table}
+Partimos de la ecuación para perfiles delgados, que es la siguiente:
 
-\section{Verification Assessment}
+\[ \frac{1}{2\pi}\int^\pi_0 \frac{\gamma(\theta)\sin\theta}{\cos(\theta)-\cos(\theta_0)}d\theta = U_\infty(\alpha-\frac{dz}{dx}) \]
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Aplicamos el desarrollo de Glauert:
 
-\section{Validation Assessment}
+\[ A_0 = \alpha - \frac{1}{\pi} \int^\pi_0 \frac{dz}{dx} d\theta \hspace{1cm} A_n = \frac{2}{\pi} \int^\pi_0 \frac{dz}{dx} \cos(n\theta)d\theta \]
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+La circulación será:
 
-\section{Discussion}
+\[ \Gamma = cu_\infty[A_0\pi + A_1\frac{\pi}{2}] \]
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Aplicando la ley de Kutta ($l = \rho_\infty u_\infty \Gamma$) y la definición $c_l=\frac{l}{q_\infty c}$ obtenemos la siguiente expresión:
+
+\[ c_l = \pi (2 A_0 + A_1) \]
+
+La línea media viene definida por las siguientes ecuaciones:
+
+\[ z_m = \frac{f}{p^2} (2px - x^2) \hspace{1cm} 0 \leq x \leq p \]
+\[ z_m = \frac{f}{1-p^2} (1-2p+2px-x^2) \hspace{1cm} p < x \leq 1 \]
+
+Derivando respecto x, obtenemos expresiones que podemos usar en el cálculo de $A_0$ y $A_1$:
+
+\[ \frac{dz}{dx} = \frac{2f}{p^2}(p-x) \hspace{1cm} 0 \leq x \leq p \]
+\[ \frac{dz}{dx} = \frac{2f}{(1-p)^2}(p-x) \hspace{1cm} p < x \leq \pi \]
+
+Haciendo el cambio $x = \frac{1}{2}(1-\cos\theta)$, con los datos $p=0.2$, $f=0.02$, $\alpha=4\degree$, y sabiendo que en la discontinuidad $x=p\rightarrow\theta=\arccos(0.6)$, obtenemos:
+
+\[A_0=0.052213 \hspace{1cm} A_1=0.09799\]
+\[c_l = 0.6359\]
+
+A continuación, utilizando nuestro programa para obtener el valor de $c_l$ para diferentes números de paneles y aplicando las distribuciones uniforme y \textit{full cosine} obtenemos:
+
+\begin{figure}[H]
+  \begin{center}
+    \pgfplotstabletypeset[
+        col sep=comma,
+        precision=4,
+        columns/0/.style={column name=Paneles, column type={|c}},
+        columns/1/.style={column name=$c_{l, uniforme}$, column type={|c}},
+        columns/2/.style={column name=$c_{l, full cosine}$, column type={|c}},
+        columns/3/.style={column name=$Error_{uniforme} [\%]$, column type={|c}},
+        columns/4/.style={column name=$Error_{full cosine} [\%]$, column type={|c|}},
+        before row=\hline,every last row/.style={after row=\hline},
+        % every head row/.style={before row=\hline,after row=\hline},
+        % every last row/.style={after row=\hline},
+        ]{data/cl_convergence.csv}
+  \end{center}
+  \caption{Valores obtenidos para el $c_l$ usando una distribución uniforme y \textit{full cosine}}
+\end{figure}
+
+Observamos en primer lugar que no se obtienen mejoras significativas a través del uso de la distribución \textit{full cosine}. Sin embargo, optamos por usarla de todas maneras ya que los resultados que obtenemos se acercan más a los teóricos, por poco que sea.
+
+Tomando la distribución \textit{full cosine}, vemos que a partir de 128 paneles se obtiene un error en el $c_l$ inferior al 2\%, que consideramos aceptable, por lo que utilizaremos este número de paneles en nuestros siguientes cálculos.
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=0.9\textwidth,
+            height=0.4\textwidth,
+            axis y line*=left,
+            xlabel={Paneles},
+            ylabel={$c_l$~[\textdegree]},
+            grid=major
+            ]
+            \addplot[smooth,mark=*,blue] table [
+                x index=0, y index=1, col sep=comma, header=false
+                ]{data/cl_convergence.csv};
+            \label{plot:clUniforme}
+        \end{axis}
+        \begin{axis}[
+            width=0.9\textwidth,
+            height=0.4\textwidth,
+            axis y line*=right,
+            axis x line=none,
+            xlabel={Paneles},
+            ylabel={Error~[\%]},
+            grid=major
+            ]
+            \addplot[smooth,mark=*,red] table [
+                x index=0, y index=3, col sep=comma, header=false
+                ]{data/cl_convergence.csv};
+            \label{plot:errorUniforme}
+            \addlegendimage{/pgfplots/refstyle=plot:clUniforme}\addlegendentry{$c_l$}
+            \addlegendimage{/pgfplots/refstyle=plot:errorUniforme}\addlegendentry{Error}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Distribución uniforme}
+    \label{fig:clUniforme}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=0.9\textwidth,
+            height=0.5\textwidth,
+            axis y line*=left,
+            xlabel={Paneles},
+            ylabel={$c_l$~[\textdegree]},
+            grid=major
+            ]
+            \addplot[smooth,mark=*,blue] table [
+                x index=0, y index=2, col sep=comma, header=false
+                ]{data/cl_convergence.csv};
+            \label{plot:clFullCosine}
+        \end{axis}
+        \begin{axis}[
+            width=0.9\textwidth,
+            height=0.5\textwidth,
+            axis y line*=right,
+            axis x line=none,
+            xlabel={Paneles},
+            ylabel={Error~[\%]},
+            grid=major
+            ]
+            \addplot[smooth,mark=*,red] table [
+                x index=0, y index=4, col sep=comma, header=false
+                ]{data/cl_convergence.csv};
+            \label{plot:errorFullCosine}
+            \addlegendimage{/pgfplots/refstyle=plot:clFullCosine}\addlegendentry{$c_l$}
+            \addlegendimage{/pgfplots/refstyle=plot:errorFullCosine}\addlegendentry{Error}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Distribución \textit{full cosine}}
+    \label{fig:clFullCosine}
+  \end{center}
+\end{figure}
+
+En cuanto al flap, lo escogemos de tal forma que se sitúe en $x=0.8$. Hacemos variar el ángulo de deflexión del flap y graficamos el ángulo de sustentación nula con respecto de éste, obteniendo la siguiente recta.
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=0.9\textwidth,
+            height=0.3\textheight,
+            xlabel={$\eta$~[\textdegree]},
+            ylabel={$\alpha_{l,0}$~[\textdegree]},
+            grid=major
+            ]
+            \addplot table [
+                x=flapAngle, y=alphaL0, col sep=comma
+                ]{data/flap_efficiency.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Eficiencia del flap}
+    \label{fig:flapEfficiency}
+  \end{center}
+\end{figure}
+
+El pendiente de la curva resultante nos da el factor de eficiencia:
+
+\[ \frac{\delta\alpha_{l,0}}{\delta{\eta}} = -0.548 \]
+
+\section{Validación}
+
+Basándonos en el análisis anterior y usando el mismo perfil NACA, calculamos la pendiente de sustentación, el ángulo de ataque de sustentación nula ($\alpha_{l,0}$) y el coeficiente de momento respecto del centro aerodinàmico ($c_{m,LE}$):
+
+% \begin{figure}[H]
+%   \begin{center}
+%     \pgfplotstabletypeset[
+%         col sep=comma,
+%         precision=4,
+%         columns/0/.style={column name=$\alpha (\degree)$, column type={|c}},
+%         columns/1/.style={column name=$\alpha (rad)$, column type={|c}},
+%         columns/2/.style={column name=$c_{l}$, column type={|c}},
+%         columns/3/.style={column name=$c_{m,LE}$, column type={|c|}},
+%         before row=\hline,every last row/.style={after row=\hline},
+%         % every head row/.style={before row=\hline,after row=\hline},
+%         % every last row/.style={after row=\hline},
+%         ]{data/validation.csv}
+%   \end{center}
+%   \caption{Valores de $c_l$ y $c_{m,LE}$ para diferentes ángulos de ataque}
+% \end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{center}
+      \begin{tikzpicture}
+          \begin{axis}[
+              width=0.8\textwidth,
+              height=0.45\textwidth,
+              axis y line*=left,
+              xlabel={$\alpha (rad)$},
+              ylabel={$c_l$},
+              grid=major
+              ]
+              \addplot[smooth,mark=*,blue] table [
+                  x index=1, y index=2, col sep=comma, header=false
+                  ]{data/validation.csv};
+              \label{plot:validationCl}
+          \end{axis}
+          \begin{axis}[
+              width=0.8\textwidth,
+              height=0.45\textwidth,
+              axis y line*=right,
+              axis x line=none,
+              ylabel={$c_{m,LE}$},
+              grid=major
+              ]
+              \addplot[smooth,mark=*,red] table [
+                  x index=1, y index=3, col sep=comma, header=false
+                  ]{data/validation.csv};
+              \label{plot:validationCmLE}
+              \addlegendimage{/pgfplots/refstyle=plot:validationCl}\addlegendentry{$c_l$}
+              \addlegendimage{/pgfplots/refstyle=plot:validationCmLE}\addlegendentry{$c_{m,LE}$}
+          \end{axis}
+      \end{tikzpicture}
+      \caption{Distribución \textit{full cosine}}
+      \label{fig:validationPlot}
+    \end{center}
+  \end{center}
+\end{figure}
+
+Del gráfico obtenemos los siguientes resultados:
+
+\[ c_{l,\alpha} = 6.294 \approx 2\pi = 6.2832 \]
+\[ \alpha_{l,0} = -0.0280 rad \]
+\[ c_{m,0} = -0.0436 \]
+
+La pendiente de sustentación es prácticamente igual a $2\pi$, y además el cociente entre la pendeinte de la curva de coeficiente de momento y el coeficiente de sustentación resulta ser:
+
+\[ \frac{1.537}{6.294} = 0.244 \]
+
+Esto es aproximadamente igual a 0.25, es decir, $\frac{1}{4}$ de la cuerda, posición en la que se encuentra el centro aerodinámico. Con estos datos opdemos concluir que la teoria de perfiles delgados es acertada.
+
+Del \textit{NACA report 460} obtenemos los siguientes resultados:
+
+\[ c_{l,\alpha}=5.2 \]
+\[ \alpha_{l,0} = -0.035 rad \]
+\[ c_{m,0} = -0.03 \]
+
+\section{Discusión}
+
+Como se puede ver en las gráficas que aparecen a continuación, al aumentar la curvatura máxima y al retrasar la posición en la que se encuentra, podemos observar que las rectas de sustentación se desplazan hacia arriba, mientras que las de los momentos bajan, manteniéndose su pendiente constante. Esto se traduce en un aumento del $c_{l,0}$, en una reducción del $\alpha_{l,0}$ y en un incremento negativo de $c_{m,0}$. No obstante, estos incrementos son muy pequeños cuando retrasamos la posición de la combadura máxima.
+Cuando aumentamos la curvatura máxima, aumentamos la velocidad máxima que alcanzará el flujo en el extradós, creando un pico de succión mayor, y aumentando la diferencia de presiones, por lo que obtenemos una sustentación más grande. Esto también aumenta el momento que actúa sobre el ala debido a que estamos aumentando el módulo de la fuerza que lo provoca. Por otro lado, si retrasamos el punto de combadura máxima, estaremos variando el brazo de palanca que provocará el momento.
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=0.8\textwidth,
+            height=0.45\textwidth,
+            axis y line*=left,
+            xlabel={$\alpha (\degree)$},
+            ylabel={$c_l$},
+            grid=major
+            ]
+            \addplot table [
+                x index=0, y index=1, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP1212}
+            \addplot table [
+                x index=0, y index=2, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP2212}
+            \addplot table [
+                x index=0, y index=3, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP3212}
+            \addplot table [
+                x index=0, y index=4, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP4212}
+            \addplot table [
+                x index=0, y index=5, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP5212}
+            \addplot table [
+                x index=0, y index=6, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP6212}
+            \addplot table [
+                x index=0, y index=7, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP7212}
+            \addplot table [
+                x index=0, y index=8, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP8212}
+            \addplot table [
+                x index=0, y index=9, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedP9212}
+        \end{axis}
+        \begin{axis}[
+            width=0.8\textwidth,
+            height=0.45\textwidth,
+            axis y line*=right,
+            axis x line=none,
+            xlabel={$\alpha (\degree)$},
+            ylabel={$c_{m,LE}$},
+            grid=major
+            ]
+            \addplot table [
+                x index=0, y index=1, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP1212cm}
+            \addplot table [
+                x index=0, y index=2, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP2212cm}
+            \addplot table [
+                x index=0, y index=3, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP3212cm}
+            \addplot table [
+                x index=0, y index=4, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP4212cm}
+            \addplot table [
+                x index=0, y index=5, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP5212cm}
+            \addplot table [
+                x index=0, y index=6, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP6212cm}
+            \addplot table [
+                x index=0, y index=7, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP7212cm}
+            \addplot table [
+                x index=0, y index=8, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP8212cm}
+            \addplot table [
+                x index=0, y index=9, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedP9212cm}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP1212}\addlegendentry{$c_l 1212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP2212}\addlegendentry{$c_l 2212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP3212}\addlegendentry{$c_l 3212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP4212}\addlegendentry{$c_l 4212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP5212}\addlegendentry{$c_l 5212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP6212}\addlegendentry{$c_l 6212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP7212}\addlegendentry{$c_l 7212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP8212}\addlegendentry{$c_l 8212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP9212}\addlegendentry{$c_l 9212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP1212cm}\addlegendentry{$c_m 1212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP2212cm}\addlegendentry{$c_m 2212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP3212cm}\addlegendentry{$c_m 3212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP4212cm}\addlegendentry{$c_m 4212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP5212cm}\addlegendentry{$c_m 5212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP6212cm}\addlegendentry{$c_m 6212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP7212cm}\addlegendentry{$c_m 7212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP8212cm}\addlegendentry{$c_m 8212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP9212cm}\addlegendentry{$c_m 9212$}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{$c_l$ y $c_{m,0}$ manteniendo $p$ fija y variando $f$}
+    \label{fig:discussionFixedP}
+  \end{center}
+\end{figure}
+
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=0.8\textwidth,
+            height=0.45\textwidth,
+            axis y line*=left,
+            xlabel={$\alpha (\degree)$},
+            ylabel={$c_l$},
+            grid=major
+            ]
+            \addplot table [
+                x index=0, y index=10, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2112}
+            \addplot table [
+                x index=0, y index=11, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2212}
+            \addplot table [
+                x index=0, y index=12, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2312}
+            \addplot table [
+                x index=0, y index=13, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2412}
+            \addplot table [
+                x index=0, y index=14, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2512}
+            \addplot table [
+                x index=0, y index=15, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2612}
+            \addplot table [
+                x index=0, y index=16, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2712}
+            \addplot table [
+                x index=0, y index=17, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2812}
+            \addplot table [
+                x index=0, y index=18, col sep=comma
+                ]{data/discussion_cl.csv};
+            \label{plot:fixedF2912}
+        \end{axis}
+        \begin{axis}[
+            width=0.8\textwidth,
+            height=0.45\textwidth,
+            axis y line*=right,
+            xlabel={$\alpha (\degree)$},
+            ylabel={$c_{m,LE}$},
+            grid=major
+            ]
+            \addplot table [
+                x index=0, y index=10, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2112cm}
+            \addplot table [
+                x index=0, y index=11, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2212cm}
+            \addplot table [
+                x index=0, y index=12, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2312cm}
+            \addplot table [
+                x index=0, y index=13, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2412cm}
+            \addplot table [
+                x index=0, y index=14, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2512cm}
+            \addplot table [
+                x index=0, y index=15, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2612cm}
+            \addplot table [
+                x index=0, y index=16, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2712cm}
+            \addplot table [
+                x index=0, y index=17, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2812cm}
+            \addplot table [
+                x index=0, y index=18, col sep=comma
+                ]{data/discussion_cm.csv};
+            \label{plot:fixedF2912cm}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2112}\addlegendentry{$c_l 2112$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2212}\addlegendentry{$c_l 2212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2312}\addlegendentry{$c_l 2312$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2412}\addlegendentry{$c_l 2412$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2512}\addlegendentry{$c_l 2512$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2612}\addlegendentry{$c_l 2612$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2712}\addlegendentry{$c_l 2712$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2812}\addlegendentry{$c_l 2812$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2912}\addlegendentry{$c_l 2912$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2112cm}\addlegendentry{$c_m 2112$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2212cm}\addlegendentry{$c_m 2212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2312cm}\addlegendentry{$c_m 2312$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2412cm}\addlegendentry{$c_m 2412$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2512cm}\addlegendentry{$c_m 2512$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2612cm}\addlegendentry{$c_m 2612$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2712cm}\addlegendentry{$c_m 2712$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2812cm}\addlegendentry{$c_m 2812$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2912cm}\addlegendentry{$c_m 2912$}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{$c_l$ y $c_{m,0}$ manteniendo $f$ fija y variando $p$}
+    \label{fig:discussionFixedF}
+  \end{center}
+\end{figure}
+
+\section{Apéndice: Código}
+
+\lstinputlisting[language=Matlab]{airfoil.m}
+\lstinputlisting[language=Matlab]{verification_helper.m}
+\lstinputlisting[language=Matlab]{verification.m}
+\lstinputlisting[language=Matlab]{discussion.m}
 
 \end{document}
