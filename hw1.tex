@@ -16,8 +16,8 @@
 \oddsidemargin 0.25in
 \evensidemargin 0.25in
 \marginparsep 0.25in
-\topmargin 0.25in
-\textwidth 6in \textheight 8 in
+\addtolength{\topmargin}{-.5in}
+\textwidth 6in \textheight 9in
 \linespread{1}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{3pt}
@@ -112,6 +112,8 @@ Derivando respecto x, obtenemos expresiones que podemos usar en el cálculo de $
 \[ \frac{dz}{dx} = \frac{2f}{p^2}(p-x) \hspace{1cm} 0 \leq x \leq p \]
 \[ \frac{dz}{dx} = \frac{2f}{(1-p)^2}(p-x) \hspace{1cm} p < x \leq \pi \]
 
+\newpage
+
 Haciendo el cambio $x = \frac{1}{2}(1-\cos\theta)$, con los datos $p=0.2$, $f=0.02$, $\alpha=4\degree$, y sabiendo que en la discontinuidad $x=p\rightarrow\theta=\arccos(0.6)$, obtenemos:
 
 \[A_0=0.052213 \hspace{1cm} A_1=0.09799\]
@@ -166,12 +168,12 @@ Tomando la distribución \textit{full cosine}, vemos que a partir de 128 paneles
             ylabel={Error~[\%]},
             grid=major
             ]
+            \addlegendimage{/pgfplots/refstyle=plot:clUniforme}\addlegendentry{$c_l$}
+            \addlegendimage{/pgfplots/refstyle=plot:errorUniforme}\addlegendentry{Error}
             \addplot[smooth,mark=*,red] table [
                 x index=0, y index=3, col sep=comma, header=false
                 ]{data/cl_convergence.csv};
             \label{plot:errorUniforme}
-            \addlegendimage{/pgfplots/refstyle=plot:clUniforme}\addlegendentry{$c_l$}
-            \addlegendimage{/pgfplots/refstyle=plot:errorUniforme}\addlegendentry{Error}
         \end{axis}
     \end{tikzpicture}
     \caption{Distribución uniforme}
@@ -184,7 +186,7 @@ Tomando la distribución \textit{full cosine}, vemos que a partir de 128 paneles
     \begin{tikzpicture}
         \begin{axis}[
             width=0.9\textwidth,
-            height=0.5\textwidth,
+            height=0.4\textwidth,
             axis y line*=left,
             xlabel={Paneles},
             ylabel={$c_l$~[\textdegree]},
@@ -197,19 +199,19 @@ Tomando la distribución \textit{full cosine}, vemos que a partir de 128 paneles
         \end{axis}
         \begin{axis}[
             width=0.9\textwidth,
-            height=0.5\textwidth,
+            height=0.4\textwidth,
             axis y line*=right,
             axis x line=none,
             xlabel={Paneles},
             ylabel={Error~[\%]},
             grid=major
             ]
+            \addlegendimage{/pgfplots/refstyle=plot:clFullCosine}\addlegendentry{$c_l$}
+            \addlegendimage{/pgfplots/refstyle=plot:errorFullCosine}\addlegendentry{Error}
             \addplot[smooth,mark=*,red] table [
                 x index=0, y index=4, col sep=comma, header=false
                 ]{data/cl_convergence.csv};
             \label{plot:errorFullCosine}
-            \addlegendimage{/pgfplots/refstyle=plot:clFullCosine}\addlegendentry{$c_l$}
-            \addlegendimage{/pgfplots/refstyle=plot:errorFullCosine}\addlegendentry{Error}
         \end{axis}
     \end{tikzpicture}
     \caption{Distribución \textit{full cosine}}
@@ -224,7 +226,7 @@ En cuanto al flap, lo escogemos de tal forma que se sitúe en $x=0.8$. Hacemos v
     \begin{tikzpicture}
         \begin{axis}[
             width=0.9\textwidth,
-            height=0.3\textheight,
+            height=0.4\textheight,
             xlabel={$\eta$~[\textdegree]},
             ylabel={$\alpha_{l,0}$~[\textdegree]},
             grid=major
@@ -270,7 +272,7 @@ Basándonos en el análisis anterior y usando el mismo perfil NACA, calculamos l
       \begin{tikzpicture}
           \begin{axis}[
               width=0.8\textwidth,
-              height=0.45\textwidth,
+              height=0.4\textwidth,
               axis y line*=left,
               xlabel={$\alpha (rad)$},
               ylabel={$c_l$},
@@ -283,18 +285,18 @@ Basándonos en el análisis anterior y usando el mismo perfil NACA, calculamos l
           \end{axis}
           \begin{axis}[
               width=0.8\textwidth,
-              height=0.45\textwidth,
+              height=0.4\textwidth,
               axis y line*=right,
               axis x line=none,
               ylabel={$c_{m,LE}$},
               grid=major
               ]
+              \addlegendimage{/pgfplots/refstyle=plot:validationCl}\addlegendentry{$c_l$}
+              \addlegendimage{/pgfplots/refstyle=plot:validationCmLE}\addlegendentry{$c_{m,LE}$}
               \addplot[smooth,mark=*,red] table [
                   x index=1, y index=3, col sep=comma, header=false
                   ]{data/validation.csv};
               \label{plot:validationCmLE}
-              \addlegendimage{/pgfplots/refstyle=plot:validationCl}\addlegendentry{$c_l$}
-              \addlegendimage{/pgfplots/refstyle=plot:validationCmLE}\addlegendentry{$c_{m,LE}$}
           \end{axis}
       \end{tikzpicture}
       \caption{Distribución \textit{full cosine}}
@@ -331,7 +333,7 @@ Cuando aumentamos la curvatura máxima, aumentamos la velocidad máxima que alca
     \begin{tikzpicture}
         \begin{axis}[
             width=0.8\textwidth,
-            height=0.45\textwidth,
+            height=0.4\textwidth,
             axis y line*=left,
             xlabel={$\alpha (\degree)$},
             ylabel={$c_l$},
@@ -376,13 +378,31 @@ Cuando aumentamos la curvatura máxima, aumentamos la velocidad máxima que alca
         \end{axis}
         \begin{axis}[
             width=0.8\textwidth,
-            height=0.45\textwidth,
+            height=0.4\textwidth,
             axis y line*=right,
             axis x line=none,
             xlabel={$\alpha (\degree)$},
             ylabel={$c_{m,LE}$},
             grid=major
             ]
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP1212}\addlegendentry{$c_l 1212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP2212}\addlegendentry{$c_l 2212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP3212}\addlegendentry{$c_l 3212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP4212}\addlegendentry{$c_l 4212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP5212}\addlegendentry{$c_l 5212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP6212}\addlegendentry{$c_l 6212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP7212}\addlegendentry{$c_l 7212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP8212}\addlegendentry{$c_l 8212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP9212}\addlegendentry{$c_l 9212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP1212cm}\addlegendentry{$c_m 1212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP2212cm}\addlegendentry{$c_m 2212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP3212cm}\addlegendentry{$c_m 3212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP4212cm}\addlegendentry{$c_m 4212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP5212cm}\addlegendentry{$c_m 5212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP6212cm}\addlegendentry{$c_m 6212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP7212cm}\addlegendentry{$c_m 7212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP8212cm}\addlegendentry{$c_m 8212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedP9212cm}\addlegendentry{$c_m 9212$}
             \addplot table [
                 x index=0, y index=1, col sep=comma
                 ]{data/discussion_cm.csv};
@@ -419,24 +439,6 @@ Cuando aumentamos la curvatura máxima, aumentamos la velocidad máxima que alca
                 x index=0, y index=9, col sep=comma
                 ]{data/discussion_cm.csv};
             \label{plot:fixedP9212cm}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP1212}\addlegendentry{$c_l 1212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP2212}\addlegendentry{$c_l 2212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP3212}\addlegendentry{$c_l 3212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP4212}\addlegendentry{$c_l 4212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP5212}\addlegendentry{$c_l 5212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP6212}\addlegendentry{$c_l 6212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP7212}\addlegendentry{$c_l 7212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP8212}\addlegendentry{$c_l 8212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP9212}\addlegendentry{$c_l 9212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP1212cm}\addlegendentry{$c_m 1212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP2212cm}\addlegendentry{$c_m 2212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP3212cm}\addlegendentry{$c_m 3212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP4212cm}\addlegendentry{$c_m 4212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP5212cm}\addlegendentry{$c_m 5212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP6212cm}\addlegendentry{$c_m 6212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP7212cm}\addlegendentry{$c_m 7212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP8212cm}\addlegendentry{$c_m 8212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedP9212cm}\addlegendentry{$c_m 9212$}
         \end{axis}
     \end{tikzpicture}
     \caption{$c_l$ y $c_{m,0}$ manteniendo $p$ fija y variando $f$}
@@ -450,7 +452,7 @@ Cuando aumentamos la curvatura máxima, aumentamos la velocidad máxima que alca
     \begin{tikzpicture}
         \begin{axis}[
             width=0.8\textwidth,
-            height=0.45\textwidth,
+            height=0.4\textwidth,
             axis y line*=left,
             xlabel={$\alpha (\degree)$},
             ylabel={$c_l$},
@@ -495,12 +497,30 @@ Cuando aumentamos la curvatura máxima, aumentamos la velocidad máxima que alca
         \end{axis}
         \begin{axis}[
             width=0.8\textwidth,
-            height=0.45\textwidth,
+            height=0.4\textwidth,
             axis y line*=right,
             xlabel={$\alpha (\degree)$},
             ylabel={$c_{m,LE}$},
             grid=major
             ]
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2112}\addlegendentry{$c_l 2112$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2212}\addlegendentry{$c_l 2212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2312}\addlegendentry{$c_l 2312$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2412}\addlegendentry{$c_l 2412$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2512}\addlegendentry{$c_l 2512$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2612}\addlegendentry{$c_l 2612$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2712}\addlegendentry{$c_l 2712$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2812}\addlegendentry{$c_l 2812$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2912}\addlegendentry{$c_l 2912$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2112cm}\addlegendentry{$c_m 2112$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2212cm}\addlegendentry{$c_m 2212$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2312cm}\addlegendentry{$c_m 2312$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2412cm}\addlegendentry{$c_m 2412$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2512cm}\addlegendentry{$c_m 2512$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2612cm}\addlegendentry{$c_m 2612$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2712cm}\addlegendentry{$c_m 2712$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2812cm}\addlegendentry{$c_m 2812$}
+            \addlegendimage{/pgfplots/refstyle=plot:fixedF2912cm}\addlegendentry{$c_m 2912$}
             \addplot table [
                 x index=0, y index=10, col sep=comma
                 ]{data/discussion_cm.csv};
@@ -537,24 +557,6 @@ Cuando aumentamos la curvatura máxima, aumentamos la velocidad máxima que alca
                 x index=0, y index=18, col sep=comma
                 ]{data/discussion_cm.csv};
             \label{plot:fixedF2912cm}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2112}\addlegendentry{$c_l 2112$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2212}\addlegendentry{$c_l 2212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2312}\addlegendentry{$c_l 2312$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2412}\addlegendentry{$c_l 2412$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2512}\addlegendentry{$c_l 2512$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2612}\addlegendentry{$c_l 2612$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2712}\addlegendentry{$c_l 2712$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2812}\addlegendentry{$c_l 2812$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2912}\addlegendentry{$c_l 2912$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2112cm}\addlegendentry{$c_m 2112$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2212cm}\addlegendentry{$c_m 2212$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2312cm}\addlegendentry{$c_m 2312$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2412cm}\addlegendentry{$c_m 2412$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2512cm}\addlegendentry{$c_m 2512$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2612cm}\addlegendentry{$c_m 2612$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2712cm}\addlegendentry{$c_m 2712$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2812cm}\addlegendentry{$c_m 2812$}
-            \addlegendimage{/pgfplots/refstyle=plot:fixedF2912cm}\addlegendentry{$c_m 2912$}
         \end{axis}
     \end{tikzpicture}
     \caption{$c_l$ y $c_{m,0}$ manteniendo $f$ fija y variando $p$}
@@ -565,7 +567,9 @@ Cuando aumentamos la curvatura máxima, aumentamos la velocidad máxima que alca
 \section{Apéndice: Código}
 
 \lstinputlisting[language=Matlab]{airfoil.m}
+\lstinputlisting[language=Matlab]{DVM.m}
 \lstinputlisting[language=Matlab]{verification_helper.m}
+\newpage
 \lstinputlisting[language=Matlab]{verification.m}
 \lstinputlisting[language=Matlab]{discussion.m}
 
