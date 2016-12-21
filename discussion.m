@@ -11,7 +11,7 @@ cmLEArray1 = [];
 cmLEArray2 = [];
 NACAArray = [];
 
-% Fixing f
+% Fixing p
 for i = 1:9
   NACA(1) = num2str(i);
   camberLine = airfoil(NACA, flapPosition, flapAngle, nPanels, distribution);
@@ -26,7 +26,7 @@ for i = 1:9
 end
 
 NACA = '2212';
-% Fixing p
+% Fixing f
 for i = 1:9
   NACA(2) = num2str(i);
   camberLine = airfoil(NACA, flapPosition, flapAngle, nPanels, distribution);
