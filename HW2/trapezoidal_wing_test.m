@@ -1,6 +1,15 @@
-[ quarterChordLine, controlPoints ] = trapezoidal_wing(0.8, 5, 0, 0, 100);
+[ quarterChordLine, controlPoints ] = trapezoidal_wing(0.8, 5, 0, 2, 100);
 clf;
+subplot(2,1,1);
 plot(quarterChordLine(:, 1), quarterChordLine(:, 2));
 hold on;
 plot(controlPoints(:, 1), controlPoints(:, 2));
 axis equal;
+subplot(2,1,2);
+plot(quarterChordLine(:, 2), quarterChordLine(:, 3));
+hold on;
+plot(controlPoints(:, 2), controlPoints(:, 3));
+axis equal;
+% plot3(quarterChordLine(:, 1), quarterChordLine(:, 2), quarterChordLine(:, 3));
+% hold on;
+% plot3(controlPoints(:, 1), controlPoints(:, 2), controlPoints(:, 3));
