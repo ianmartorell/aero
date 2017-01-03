@@ -1,33 +1,42 @@
-function [ quarterChordLine, controlPoints, panelAngle ] = trapezoidal_wing(taperRatio, quarterChordSweepAngle, angleOfAttack, wingTipTwist, nPanels)
+function [ quarterChordLine, controlPoints, panelAngles ] = trapezoidal_wing(aspectRatio, taperRatio, quarterChordSweepAngle, angleOfAttack, wingTipTwist, nPanels)
+  quarterChordLine = zeros(nPanels, 3);
+  controlPoints = zeros(nPanels, 3);
+  panelAngles = zeros(nPanels, 1);
+  % y is distributed linearly
+  lastY = 0.5 - 1/nPanels/2;
+  quarterChordLine(:, 2) = linspace(-lastY, lastY, nPanels);
+  controlPoints(:, 2) = linspace(-lastY, lastY, nPanels);
 
-quarterChordLine = zeros(nPanels, 3);
-controlPoints = zeros(nPanels, 3);
-panelAngle(1) = zeros(nPanels, 1);
-% y is distributed linearly
-quarterChordLine(:, 2) = linspace(-0.5, 0.5, nPanels);
-controlPoints(:, 2) = linspace(-0.5, 0.5, nPanels);
+  surfaceArea = 1/aspectRatio;
+  chordRoot = 2*surfaceArea/(1+taperRatio);
+  chordTip = taperRatio*chordRoot;
 
-sweepSlope = tand(90-quarterChordSweepAngle);
-sweepOrd = -sweepSlope*0.25;
-twistSlope = wingTipTwist/0.5;
+  sweepSlope = tand(90-quarterChordSweepAngle);
+  sweepOrd = -sweepSlope*0.25*chordRoot;
+  twistSlope = wingTipTwist/0.5;
 
-for i = 1:nPanels
-  % Compute this panel's chord
-  m = (taperRatio - 1) / 0.5;
-  chord = 1 + m * abs(quarterChordLine(i, 2));
-  % Calculate this panel's angle of attack
-  panelAngle(1) = twistSlope * abs(quarterChordLine(i, 2)) + angleOfAttack;
-
-  if quarterChordLine(i, 2) > 0
-    quarterChordLine(i, 1) = (quarterChordLine(i, 2) - sweepOrd) / sweepSlope + chord * (1 - cosd(panelAngle(1)));
-  else
-    quarterChordLine(i, 1) = (quarterChordLine(i, 2) + sweepOrd) / -sweepSlope + chord * (1 - cosd(panelAngle(1)));
+  for i = 1:nPanels
+    % Compute this panel's chord
+    m = (chordTip - chordRoot) / 0.5;
+    chord = chordRoot + m * abs(quarterChordLine(i, 2));
+    % Calculate this panel's angle of attack
+    panelAngles(i) = twistSlope * abs(quarterChordLine(i, 2)) + angleOfAttack;
+    % Calculate x position
+    if isinf(sweepSlope)
+      quarterChordLine(i, 1) = 0.25*chord;
+    else
+      if quarterChordLine(i, 2) > 0
+        quarterChordLine(i, 1) = (quarterChordLine(i, 2) - sweepOrd) / sweepSlope;
+      else
+        quarterChordLine(i, 1) = (quarterChordLine(i, 2) + sweepOrd) / -sweepSlope;
+      end
+    end
+    % Correction due to z axis
+    quarterChordLine(i, 1) = quarterChordLine(i, 1) + chord * (1 - cosd(panelAngles(i)));
+    % Calculate z position
+    quarterChordLine(i, 3) = sind(panelAngles(i)) * chord;
+    % Calculate control point position
+    controlPoints(i, 1) = quarterChordLine(i, 1) + chord/2 + (1 - cosd(panelAngles(i)))/4;
+    controlPoints(i, 3) = sind(panelAngles(i)) * chord/4;
   end
-
-  controlPoints(i, 1) = quarterChordLine(i, 1) + chord/2 + (1 - cosd(panelAngle(1)))/4;
-
-  quarterChordLine(i, 3) = sind(panelAngle(1)) * chord;
-  controlPoints(i, 3) = sind(panelAngle(1)) * chord/4;
-end
-
 end

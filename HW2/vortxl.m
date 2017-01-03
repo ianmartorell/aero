@@ -1,35 +1,27 @@
-function inducedVelocity =  vortxl(horseshoe1, horseshoe2, controlPoint, gamma)
-[ x1, y1, z1 ] = horseshoe1;
-[ x2, y2, z2 ] = horseshoe2;
-[ xp, yp, zp ] = controlPoint;
+function inducedVelocity =  vortxl(xa, xb, xp, circulation)
+    %Productos vectoriales
+    x = (xp(2)-xa(2)) * (xp(3)-xb(3))-(xp(3)-xa(3)) * (xp(2)-xb(2));
+    y = -(xp(1)-xa(1)) * (xp(3)-xb(3)) + (xp(3)-xa(3)) * (xp(1)-xb(1));
+    z = (xp(1)-xa(1)) * (xp(2)-xb(2))-(xp(2)-xa(2)) * (xp(1)-xb(1));
 
-% Esta función devuelve los valores de velocidad inducida por un vortice en % un panel
+    % Producto escalar denominador (ecuación de velocidades en el control point)
+    d = x * x + y * y + z * z;
+    r1 = sqrt((xp(1)-xa(1)) * (xp(1)-xa(1)) + (xp(2)-xa(2)) * (xp(2)-xa(2)) + (xp(3)-xa(3)) * (xp(3)-xa(3)));
+    r2 = sqrt((xp(1)-xb(1)) * (xp(1)-xb(1)) + (xp(2)-xb(2)) * (xp(2)-xb(2)) + (xp(3)-xb(3)) * (xp(3)-xb(3)));
 
-%Productos vectoriales (a = x,  b = y,  c = z)
-a = (yp-y1) * (zp-z2)-(zp-z1) * (yp-y2);
-b = -(xp-x1) * (zp-z2) + (zp-z1) * (xp-x2);
-c = (xp-x1) * (yp-y2)-(yp-y1) * (xp-x2);
-
-%Producto escalar denominador (ecuación de velocidades en el control point)
-d = a * a + b * b + c * c;
-r1 = sqrt((xp-x1) * (xp-x1) + (yp-y1) * (yp-y1) + (zp-z1) * (zp-z1));
-r2 = sqrt((xp-x2) * (xp-x2) + (yp-y2) * (yp-y2) + (zp-z2) * (zp-z2));
-
-%d = constante pequeña --> evitar dividir entre 0
-if(d>(10^-6) && r2>(10^-6) && r1>(10^-6))
-    ror1 = (x2-x1) * (xp-x1) + (y2-y1) * (yp-y1) + (z2-z1) * (zp-z1);
-    ror2 = (x2-x1) * (xp-x2) + (y2-y1) * (yp-y2) + (z2-z1) * (zp-z2);
-    %Parte común de la ecuación de velocidades en el punto de control a 3/4c
-    com = (gamma/(4 * pi * d)) * ((ror1/r1)-(ror2/r2));
-    u = a * com;
-    v = b * com;
-    w = c * com;
-else
-    u = 0;
-    v = 0;
-    w = 0;
-end
-
-inducedVelocity = [u v w];
-
+    % d = constante pequeña --> evitar dividir entre 0
+    if(d>(10^-6) && r2>(10^-6) && r1>(10^-6))
+        ror1 = (xb(1)-xa(1)) * (xp(1)-xa(1)) + (xb(2)-xa(2)) * (xp(2)-xa(2)) + (xb(3)-xa(3)) * (xp(3)-xa(3));
+        ror2 = (xb(1)-xa(1)) * (xp(1)-xb(1)) + (xb(2)-xa(2)) * (xp(2)-xb(2)) + (xb(3)-xa(3)) * (xp(3)-xb(3));
+        % Parte común de la ecuación de velocidades en el punto de control a 3/4c
+        com = (circulation/(4 * pi * d)) * ((ror1/r1)-(ror2/r2));
+        u = x * com;
+        v = y * com;
+        w = z * com;
+    else
+        u = 0;
+        v = 0;
+        w = 0;
+    end
+    inducedVelocity = [u; v; w];
 end
