@@ -14,7 +14,7 @@ for leadingEdgeSweepAngle = 0:5:60
   [ cL1 ] = HVM(aspectRatio, taperRatio, quarterChordSweepAngle, -2, wingTipTwist, nPanels);
   [ cL2 ] = HVM(aspectRatio, taperRatio, quarterChordSweepAngle, 2, wingTipTwist, nPanels);
   cLAlphas = [ cLAlphas; (cL2-cL1)/4 ];
-  aerodynamicCenters = [ aerodynamicCenters; tand(quarterChordSweepAngle)/6*(1+2*taperRatio)/(1+taperRatio)];
+  aerodynamicCenters = [ aerodynamicCenters; 0.25 + tand(quarterChordSweepAngle)/6*(1+2*taperRatio)/(1+taperRatio)];
 end
 
 csvwrite('data/hw2_2.csv', [ leadingEdgeSweepAngles cLAlphas aerodynamicCenters ]);
