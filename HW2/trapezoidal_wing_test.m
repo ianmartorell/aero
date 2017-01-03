@@ -1,4 +1,4 @@
-[ quarterChordLine, controlPoints ] = trapezoidal_wing(8, .5, 60, 0, 0, 100);
+[ quarterChordLine, controlPoints ] = trapezoidal_wing(8, .5, 60, 2, 0, 100);
 clf;
 % 2D plot
 subplot(2,1,1);

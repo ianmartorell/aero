@@ -13,6 +13,6 @@ function coordinates = compute_horseshoe(midPoint, panelAngle, nPanels)
   coordinates(4, 1) = coordinates(1, 1);
   coordinates(1, 2) = coordinates(2, 2);
   coordinates(4, 2) = coordinates(3, 2);
-  coordinates(1, 3) = sind(panelAngle) * (20);
+  coordinates(1, 3) = -sind(panelAngle) * (20);
   coordinates(4, 3) = coordinates(1, 3);
 end
