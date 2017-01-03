@@ -2,7 +2,7 @@ taperRatio = 1;
 quarterChordSweepAngle = 0;
 wingTipTwist = 0;
 nPanels = 100;
-
+% Initialize output vectors
 aspectRatios = [];
 cLAlphas = [];
 for aspectRatio = 6:11

@@ -1,11 +1,11 @@
 function coordinates = compute_horseshoe(midPoint, panelAngle, nPanels)
-  panelLength = 1 / nPanels;
+  panelWidth = 1 / nPanels;
   coordinates = zeros(4, 3);
   % Compute points b and c
   coordinates(2, 1) = midPoint(1);
   coordinates(3, 1) = midPoint(1);
-  coordinates(2, 2) = midPoint(2) - panelLength/2;
-  coordinates(3, 2) = midPoint(2) + panelLength/2;
+  coordinates(2, 2) = midPoint(2) - panelWidth/2;
+  coordinates(3, 2) = midPoint(2) + panelWidth/2;
   coordinates(2, 3) = midPoint(3);
   coordinates(3, 3) = midPoint(3);
   % Compute a and d
