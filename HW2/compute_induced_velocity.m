@@ -1,4 +1,4 @@
-function inducedVelocity =  vortxl(xa, xb, xp, circulation)
+function inducedVelocity =  compute_induced_velocity(xa, xb, xp, circulation)
     %Productos vectoriales
     x = (xp(2)-xa(2)) * (xp(3)-xb(3))-(xp(3)-xa(3)) * (xp(2)-xb(2));
     y = -(xp(1)-xa(1)) * (xp(3)-xb(3)) + (xp(3)-xa(3)) * (xp(1)-xb(1));
@@ -9,7 +9,7 @@ function inducedVelocity =  vortxl(xa, xb, xp, circulation)
     r1 = sqrt((xp(1)-xa(1)) * (xp(1)-xa(1)) + (xp(2)-xa(2)) * (xp(2)-xa(2)) + (xp(3)-xa(3)) * (xp(3)-xa(3)));
     r2 = sqrt((xp(1)-xb(1)) * (xp(1)-xb(1)) + (xp(2)-xb(2)) * (xp(2)-xb(2)) + (xp(3)-xb(3)) * (xp(3)-xb(3)));
 
-    % d = constante pequeña --> evitar dividir entre 0
+    % d < constante pequeña --> evitar dividir entre 0
     if(d>(10^-6) && r2>(10^-6) && r1>(10^-6))
         ror1 = (xb(1)-xa(1)) * (xp(1)-xa(1)) + (xb(2)-xa(2)) * (xp(2)-xa(2)) + (xb(3)-xa(3)) * (xp(3)-xa(3));
         ror2 = (xb(1)-xa(1)) * (xp(1)-xb(1)) + (xb(2)-xa(2)) * (xp(2)-xb(2)) + (xb(3)-xa(3)) * (xp(3)-xb(3));
