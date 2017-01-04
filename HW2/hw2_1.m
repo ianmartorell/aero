@@ -12,4 +12,4 @@ for aspectRatio = aspectRatios
   cLAlphas = [ cLAlphas; (cL2-cL1)/4 ];
 end
 
-csvwrite('data/hw2_1.dat', [ aspectRatios' cLAlphas ]);
+csvwrite('data/hw2_1.csv', [ aspectRatios' cLAlphas ]);
