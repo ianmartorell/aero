@@ -24,9 +24,7 @@ function [ quarterChordLine, controlPoints, panelAngles, panelAreas ] = trapezoi
     % Compute the panel's chord
     chord = chordRoot + (chordTip - chordRoot) / 0.5 * abs(quarterChordLine(i, 2));
     % Compute the panel's surface area
-    chordLeft = chordRoot + (chordTip - chordRoot) / 0.5 * (abs(quarterChordLine(i, 2)-panelWidth/2));
-    chordRight = chordRoot + (chordTip - chordRoot) / 0.5 * (abs(quarterChordLine(i, 2)+panelWidth/2));
-    panelAreas(i) = (chordLeft + chordRight)*panelWidth/2;
+    panelAreas(i) = chord*panelWidth;
     % Compute the panel's angle of attack
     panelAngles(i) = twistSlope * abs(quarterChordLine(i, 2)) + angleOfAttack;
     % Calculate x position
