@@ -1,12 +1,11 @@
+aspectRatios = 6:11;
 taperRatio = 1;
 quarterChordSweep = 0;
 wingTipTwist = 0;
 nPanels = 100;
-% Initialize output vectors
-aspectRatios = [];
+% Initialize output vector
 cLAlphas = [];
-for aspectRatio = 6:11
-  aspectRatios = [ aspectRatios; aspectRatio ];
+for aspectRatio = aspectRatios
   % Compute cL for -2 and 2 degrees so we can draw a line
   [ cL1 ] = HVM(aspectRatio, taperRatio, quarterChordSweep, -2, wingTipTwist, nPanels);
   [ cL2 ] = HVM(aspectRatio, taperRatio, quarterChordSweep, 2, wingTipTwist, nPanels);

@@ -1,15 +1,14 @@
 aspectRatio = 6;
 taperRatio = 1;
+leadingEdgeSweeps = 0:5:60;
 wingTipTwist = 0;
 nPanels = 100;
 % Initialize output vectors
-leadingEdgeSweepAngles = [];
 cLAlphas = [];
 aerodynamicCenters = [];
-for leadingEdgeSweepAngle = 0:5:60
-  leadingEdgeSweepAngles = [ leadingEdgeSweepAngles; leadingEdgeSweepAngle ];
+for leadingEdgeSweep = leadingEdgeSweeps
   % Although unnecessary for a unitary taper ratio, we calculate the quarter chord sweep angle
-  quarterChordSweep = quarter_chord_sweep_angle(leadingEdgeSweepAngle, aspectRatio, taperRatio);
+  quarterChordSweep = quarter_chord_sweep(leadingEdgeSweep, aspectRatio, taperRatio);
   % Compute cL for -2 and 2 degrees so we can draw a line
   [ cL1 ] = HVM(aspectRatio, taperRatio, quarterChordSweep, -2, wingTipTwist, nPanels);
   [ cL2 ] = HVM(aspectRatio, taperRatio, quarterChordSweep, 2, wingTipTwist, nPanels);
@@ -17,4 +16,4 @@ for leadingEdgeSweepAngle = 0:5:60
   aerodynamicCenters = [ aerodynamicCenters; 0.25 + tand(quarterChordSweep)/6*(1+2*taperRatio)/(1+taperRatio)];
 end
 
-csvwrite('data/hw2_2.csv', [ leadingEdgeSweepAngles cLAlphas aerodynamicCenters ]);
+csvwrite('data/hw2_2.csv', [ leadingEdgeSweeps cLAlphas aerodynamicCenters ]);
