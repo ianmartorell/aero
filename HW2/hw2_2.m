@@ -16,4 +16,4 @@ for leadingEdgeSweep = leadingEdgeSweeps
   aerodynamicCenters = [ aerodynamicCenters; 0.25 + tand(quarterChordSweep)/6*(1+2*taperRatio)/(1+taperRatio)];
 end
 
-csvwrite('data/hw2_2.csv', [ leadingEdgeSweeps cLAlphas aerodynamicCenters ]);
+csvwrite('data/hw2_2.csv', [ leadingEdgeSweeps' cLAlphas aerodynamicCenters ]);
