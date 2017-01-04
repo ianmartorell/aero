@@ -1,5 +1,5 @@
 aspectRatio = 5;
-taperRatios = [ -1 0.1:0.1:1 ];
+taperRatios = 0.1:0.1:1;
 quarterChordSweep = 0;
 wingTipTwist = 0;
 nPanels = 100;
@@ -7,7 +7,6 @@ nPanels = 100;
 panels = (1:nPanels)';
 cLYs = [];
 for taperRatio = taperRatios
-  taperRatios = [ taperRatios taperRatio ];
   % Compute cL for -2 and 2 degrees so we can draw a line
   [ cL1 ] = HVM(aspectRatio, taperRatio, quarterChordSweep, -2, wingTipTwist, nPanels);
   [ cL2 ] = HVM(aspectRatio, taperRatio, quarterChordSweep, 2, wingTipTwist, nPanels);
@@ -19,4 +18,4 @@ for taperRatio = taperRatios
   cLYs = [ cLYs cLY ];
 end
 
-csvwrite('data/hw2_3.csv', [ taperRatios; panels cLYs ]);
+csvwrite('data/hw2_3.csv', [ [ -1 taperRatios ]; panels cLYs ]);

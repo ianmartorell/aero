@@ -1,4 +1,4 @@
-function [ cL, cLY ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, nPanels)
+function [ cL, cLY, cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, nPanels)
   % HVM: Computes the lift coefficient of a wing using the Horseshoe Vortex Method
   density = 1.25;
   freestreamVelocity = [ 1 0 0 ];
@@ -28,14 +28,17 @@ function [ cL, cLY ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAt
     lift(i) = density * freestreamVelocity(1) * circulation(i) / nPanels;
   end
   wingLift = sum(lift);
+  % Compute lift coefficient
+  cL = 2 / freestreamVelocity(1) * aspectRatio * sum(circulation/nPanels);
+  % Compute local lift distribution
+  cLY = 2*circulation./panelAreas/nPanels/freestreamVelocity(1);
   % Compute moment
   momentLE = zeros(nPanels);
   for i = 1:nPanels
     momentLE(i) = lift(i) * quarterChordLine(i, 1) * cosd(panelAngles(i));
   end
-  wingMomentLE = -sum(momentLE);
-  % Compute lift coefficient
-  cL = 2 / freestreamVelocity(1) * aspectRatio * sum(circulation/nPanels);
-  % Compute local lift distribution
-  cLY = 2*circulation./panelAreas/nPanels/freestreamVelocity(1);
+  chordRoot = 2/aspectRatio/(1+taperRatio);
+  geometricChord = (2/3)*chordRoot*((1+taperRatio+taperRatio^2)/(1+taperRatio));
+  cMLE = ((-2)/(freestreamVelocity(1)/aspectRatio*geometricChord))*sum(momentLE);
+  [ alpha_i local_drag cDi ] = compute_cdi(nPanels, quarterChordLine, panelAngles, circulation, 1/aspectRatio);
 end

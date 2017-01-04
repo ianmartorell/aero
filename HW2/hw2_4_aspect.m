@@ -8,9 +8,8 @@ oswaldFactors = [];
 for aspectRatio = aspectRatios
   oswaldFactorsColumn = [];
   for taperRatio = taperRatios
-    taperRatios = [ taperRatios; taperRatio ];
     [ cL, cLY, cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, -2, wingTipTwist, nPanels);
-    oswaldFactorsColumn = [ oswaldFactors; cL^2/CDi/pi/aspectRatio ];
+    oswaldFactorsColumn = [ oswaldFactors; cL^2/cDi/pi/aspectRatio ];
   end
   oswaldFactors = [ oswaldFactors oswaldFactorsColumn ];
 end

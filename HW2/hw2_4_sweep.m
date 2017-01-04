@@ -9,7 +9,7 @@ for quarterChordSweep = quarterChordSweeps
   oswaldFactorsColumn = [];
   for taperRatio = taperRatios
     [ cL, cLY, cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, -2, wingTipTwist, nPanels);
-    oswaldFactorsColumn = [ oswaldFactorsColumn; cL^2/CDi/pi/aspectRatio ];
+    oswaldFactorsColumn = [ oswaldFactorsColumn; cL^2/cDi/pi/aspectRatio ];
   end
   oswaldFactors = [ oswaldFactors oswaldFactorsColumn ];
 end
