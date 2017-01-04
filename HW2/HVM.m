@@ -1,9 +1,9 @@
-function [ cL, cLY ] = HVM(aspectRatio, taperRatio, quarterChordSweepAngle, angleOfAttack, wingTipTwist, nPanels)
+function [ cL, cLY ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, nPanels)
   % HVM: Computes the lift coefficient of a wing using the Horseshoe Vortex Method
   density = 1.25;
   freestreamVelocity = [ 1 0 0 ];
   % Perform wing discretization
-  [ quarterChordLine, controlPoints, panelAngles, panelAreas ] = trapezoidal_wing(aspectRatio, taperRatio, quarterChordSweepAngle, angleOfAttack, wingTipTwist, nPanels);
+  [ quarterChordLine, controlPoints, panelAngles, panelAreas ] = trapezoidal_wing(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, nPanels);
   % Initialize variables
   influenceCoefficients = zeros(nPanels, nPanels);
   RHS = zeros(nPanels, 1);

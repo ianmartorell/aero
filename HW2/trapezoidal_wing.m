@@ -1,4 +1,4 @@
-function [ quarterChordLine, controlPoints, panelAngles, panelAreas ] = trapezoidal_wing(aspectRatio, taperRatio, quarterChordSweepAngle, angleOfAttack, wingTipTwist, nPanels)
+function [ quarterChordLine, controlPoints, panelAngles, panelAreas ] = trapezoidal_wing(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, nPanels)
   % trapezoidal_wing: Returns a vector of points along the quarter chord line of the wing,
   % each centered along the y axis of every panel. Also returns the control points at 3c/4 and
   % the angle of every panel after applying angle of attack and twist.
@@ -16,7 +16,7 @@ function [ quarterChordLine, controlPoints, panelAngles, panelAreas ] = trapezoi
   chordRoot = 2*surfaceArea/(1+taperRatio);
   chordTip = taperRatio*chordRoot;
   % Find equation of sweep(y) = x(y) for quarter chord points
-  sweepSlope = tand(90-quarterChordSweepAngle);
+  sweepSlope = tand(90-quarterChordSweep);
   sweepOrd = -sweepSlope*0.25*chordRoot;
   % Find equation for twist, which has a zero y-intercept
   twistSlope = wingTipTwist/0.5;
