@@ -97,16 +97,16 @@
             width=0.9\textwidth,
             height=0.4\textwidth,
             xlabel={Alargamiento},
-            ylabel={$c_{L,\alpha}$~[\textdegree]},
+            ylabel={$c_{L,\alpha}$},
             grid=major
             ]
-            \addplot+[smooth,mark=*,blue] table [
+            \addplot+[smooth,mark=*] table [
                 x index=0, y index=1, col sep=comma, header=false
                 ]{data/hw2_1.csv};
             \label{plot:hw2_1}
         \end{axis}
     \end{tikzpicture}
-    \caption{herp derp}
+    \caption{Caption}
     \label{fig:hw2_1}
   \end{center}
 \end{figure}
@@ -120,10 +120,10 @@
           height=0.4\textwidth,
           axis y line*=left,
           xlabel={Flecha},
-          ylabel={$c_{L,\alpha}$~[\textdegree]},
+          ylabel={$c_{L,\alpha}$},
           grid=major
           ]
-          \addplot+[smooth,mark=*,blue] table [
+          \addplot+[smooth,mark=*] table [
               x index=0, y index=1, col sep=comma, header=false
               ]{data/hw2_2.csv};
           \label{plot:hw2_2_cLalpha}
@@ -139,13 +139,13 @@
           ]
           \addlegendimage{/pgfplots/refstyle=plot:hw2_2_cLalpha}\addlegendentry{$c_{L,\alpha}$}
           \addlegendimage{/pgfplots/refstyle=plot:hw2_2_xac}\addlegendentry{$x_{ac}$}
-          \addplot+[smooth,mark=*,red] table [
+          \addplot+[smooth,mark=*] table [
               x index=0, y index=2, col sep=comma, header=false
               ]{data/hw2_2.csv};
           \label{plot:hw2_2_xac}
       \end{axis}
   \end{tikzpicture}
-  \caption{herp derp}
+  \caption{Caption}
   \label{fig:hw2_2}
 \end{figure}
 
@@ -157,7 +157,7 @@
           width=0.85\textwidth,
           height=0.4\textwidth,
           xlabel={Cuerda~[\%]},
-          ylabel={$c_{L,\alpha}$},
+          ylabel={$c_{L}$},
           grid=major
           ]
           \addplot+[smooth,mark=none] table [
@@ -212,7 +212,7 @@
           \addlegendimage{/pgfplots/refstyle=plot:hw2_3_1}\addlegendentry{$\lambda=1.0$}
       \end{axis}
   \end{tikzpicture}
-  \caption{herp derp}
+  \caption{Caption}
   \label{fig:hw2_3}
 \end{figure}
 
@@ -220,8 +220,8 @@
 
 \section{Apéndice: Código}
 
-\lstinputlisting[language=Matlab]{trapezoidal_wing.m}
-\lstinputlisting[language=Matlab]{compute_horseshoe.m}
+\lstinputlisting[language=Matlab]{wing_discretization.m}
+\lstinputlisting[language=Matlab]{rectangular_horseshoe.m}
 \lstinputlisting[language=Matlab]{compute_induced_velocity.m}
 \lstinputlisting[language=Matlab]{quarter_chord_sweep.m}
 \lstinputlisting[language=Matlab]{HVM.m}
@@ -230,5 +230,6 @@
 \lstinputlisting[language=Matlab]{hw2_3.m}
 \lstinputlisting[language=Matlab]{hw2_4_aspect.m}
 \lstinputlisting[language=Matlab]{hw2_4_sweep.m}
+\lstinputlisting[language=Matlab]{shia_lebouf.m}
 
 \end{document}
