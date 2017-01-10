@@ -1,8 +1,7 @@
-function [ cL, cLY, cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, horseshoeShape, nPanels)
+function [ cL, cLY, cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, nPanels)
   % HVM: Computes the lift coefficient of a wing using the Horseshoe Vortex Method
-  % horseshoeShape: can be 'rectangular' or 'trapezoidal'
-  density = 1.25;
   freestreamVelocity = [ 1 0 0 ];
+  density = 1.25;
   % Perform wing discretization
   [ midPoints, controlPoints, bounded_nodes, trailing_nodes, panelAngles, panelAreas ] = wing_discretization(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, nPanels);
   % Initialize variables
@@ -13,11 +12,7 @@ function [ cL, cLY, cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angl
     normalUnitVector = [ sind(panelAngles(i)) 0 cosd(panelAngles(i)) ];
     for j = 1:nPanels
       midPoint = [ midPoints(j, 1) midPoints(j, 2) midPoints(j, 3) ];
-      if strcmp(horseshoeShape, 'rectangular')
-        horseshoe = rectangular_horseshoe(midPoint, panelAngles(j), nPanels);
-      else
-        horseshoe = [ trailing_nodes(j,:); bounded_nodes(j,:); bounded_nodes(j+1,:); trailing_nodes(j+1,:)];
-      end
+      horseshoe = [ trailing_nodes(j,:); bounded_nodes(j,:); bounded_nodes(j+1,:); trailing_nodes(j+1,:)];
       inducedVelocity = zeros(3,1);
       for k = 1:3
         inducedVelocity = inducedVelocity + compute_induced_velocity(horseshoe(k,:), horseshoe(k+1,:), controlPoints(i,:), 1);
