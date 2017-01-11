@@ -1,4 +1,4 @@
-function [ alpha_i local_drag cDi ]= compute_cdi(nPanels, midPoints, panelAngles, circulation, surfaceArea)
+function [ alpha_i local_drag cDi ]= compute_cdi(nPanels, midPoints, bounded_nodes, trailing_nodes, panelAngles, circulation, surfaceArea)
 alpha_i = zeros(nPanels,1);
 local_drag = zeros(nPanels,1);
 for i=1:nPanels

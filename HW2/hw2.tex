@@ -282,6 +282,50 @@
   \end{center}
 \end{figure}
 
+\section{asdasd}
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{axis}[
+        width=0.9\textwidth,
+        height=0.4\textwidth,
+        xlabel={y},
+        ylabel={some weird shit},
+        grid=major
+        ]
+        \addplot+[smooth,mark=none] table [
+            x index=0, y index=1, col sep=comma, header=false
+            ]{data/hw2_5_cly.csv};
+        \label{plot:hw2_5_cly}
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Caption}
+    \label{fig:hw2_5_cly}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{axis}[
+        width=0.9\textwidth,
+        height=0.4\textwidth,
+        xlabel={y},
+        ylabel={some weird shit},
+        grid=major
+        ]
+        \addplot+[smooth,mark=none] table [
+            x index=0, y index=1, col sep=comma, header=false
+            ]{data/hw2_5_alpha_i.csv};
+        \label{plot:hw2_5_alpha_i}
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Caption}
+    \label{fig:hw2_5_alpha_i}
+  \end{center}
+\end{figure}
+
 \section{Apéndice: Código}
 
 \lstinputlisting[language=Matlab]{wing_discretization.m}

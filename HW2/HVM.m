@@ -1,4 +1,4 @@
-function [ cL, cLY, cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, horseshoeShape, nPanels)
+function [ cL, cLY, cDi, alpha_i ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, horseshoeShape, nPanels)
   % HVM: Computes the lift coefficient of a wing using the Horseshoe Vortex Method
   % horseshoeShape: can be 'rectangular' or 'trapezoidal'
   density = 1.25;
@@ -45,5 +45,5 @@ function [ cL, cLY, cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angl
   chordRoot = 2/aspectRatio/(1+taperRatio);
   geometricChord = (2/3)*chordRoot*((1+taperRatio+taperRatio^2)/(1+taperRatio));
   cMLE = ((-2)/(freestreamVelocity(1)/aspectRatio*geometricChord))*sum(momentLE);
-  [ alpha_i local_drag cDi ] = compute_cdi(nPanels, midPoints, panelAngles, circulation, 1/aspectRatio);
+  [ alpha_i local_drag cDi ] = compute_cdi(nPanels, midPoints, bounded_nodes, trailing_nodes, panelAngles, circulation, 1/aspectRatio);
 end

@@ -3,7 +3,7 @@ taperRatio = 0.5;
 quarterChordSweep = 60;
 angleOfAttack = 2;
 wingTipTwist = 0;
-horseshoeShape = 'rectangular';
+horseshoeShape = 'trapezoidal';
 nPanels = 4;
 [ cL cLY cDi ] = HVM(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, horseshoeShape, nPanels);
 cL

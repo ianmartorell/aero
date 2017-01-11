@@ -1,4 +1,11 @@
-[ midPoints, controlPoints ] = wing_discretization(8, .5, 60, 2, 0, 100);
+aspectRatio = 8;
+taperRatio = 0.5;
+quarterChordSweep = quarter_chord_sweep(10.61, aspectRatio, taperRatio);
+angleOfAttack = 5;
+wingTipTwist = 0;
+nPanels = 100;
+
+[ midPoints, controlPoints, bounded_nodes, trailing_nodes ] = wing_discretization(aspectRatio, taperRatio, quarterChordSweep, angleOfAttack, wingTipTwist, nPanels);
 clf;
 % 2D plot
 subplot(2,1,1);
