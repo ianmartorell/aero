@@ -5,7 +5,7 @@ wingTipTwist = 0;
 horseshoeShape = 'rectangular';
 nPanels = 100;
 % Initialize output vectors
-panels = (1:nPanels)';
+wingSpan = linspace(-0.5, 0.5, nPanels)';
 cLYs = [];
 for taperRatio = taperRatios
   % Compute cL for -2 and 2 degrees so we can draw a line
@@ -19,4 +19,4 @@ for taperRatio = taperRatios
   cLYs = [ cLYs cLY ];
 end
 
-csvwrite('data/hw2_3.csv', [ [ -1 taperRatios ]; panels cLYs ]);
+csvwrite('data/hw2_3.csv', [ [ -1 taperRatios ]; wingSpan cLYs ]);

@@ -1,4 +1,4 @@
-\documentclass[10pt, a4paper]{article}
+\documentclass[9pt, a4paper]{article}
 \usepackage{fontspec}
 \usepackage{textcomp}
 \usepackage{csquotes}
@@ -13,12 +13,12 @@
 \usepackage{color}
 
 % Custom margins
-\marginparwidth 0.5in
-\oddsidemargin 0.25in
-\evensidemargin 0.25in
-\marginparsep 0.25in
-\addtolength{\topmargin}{-.5in}
-\textwidth 6in \textheight 9in
+\marginparwidth 0.05in
+\oddsidemargin -0.5in
+\evensidemargin -0.5in
+\marginparsep 0.05in
+\addtolength{\topmargin}{-1.3in}
+\textwidth 7.3in \textheight 10.3in
 \linespread{1}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{3pt}
@@ -46,10 +46,11 @@
 \makeatother
 
 % pgfplots config
-\pgfplotsset{compat=newest,every axis legend/.append style={at={(1.15,0)}, anchor=south},cycle list name=exotic}
+\pgfplotsset{compat=newest,every axis legend/.append style={at={(1.15,0)}, anchor=south},cycle list name=color}
 
 % Code blocks formatting
 \lstset{
+  basicstyle=\small,
   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
   basicstyle=\footnotesize,        % the size of the fonts that are used for the code
   breakatwhitespace=true,          % sets if automatic breaks should only happen at whitespace
@@ -94,8 +95,8 @@
   \begin{center}
     \begin{tikzpicture}
       \begin{axis}[
-        width=0.9\textwidth,
-        height=0.4\textwidth,
+        width=0.8\textwidth,
+        height=0.3\textwidth,
         xlabel={AR},
         ylabel={$c_{L,\alpha}$~[$1/\degree$]},
         grid=major
@@ -106,18 +107,21 @@
         \label{plot:hw2_1}
       \end{axis}
     \end{tikzpicture}
-    \caption{Caption}
+    \caption{Pendiente de sustentación en función del alargamiento}
     \label{fig:hw2_1}
   \end{center}
 \end{figure}
+
+Vemos como aumenta la pendiente de sustentación de forma proporcional con el alargamiento, aunque sabemos que según la teoría de perfiles delgados ésta debería tender a $2\pi$, ya que un alargamiento mayor se aproxima cada ves más a una placa plana. Sin embargo, para un alargamiento menor obtenemos un ángulo de sustentación máximo mayor. Si escogemos un valor de alargamiento igual a 6 y lo comparamos con la figura del libro Katz-Plotkin podemos ver que no nos asemejamos a los resultados experimentales,
+aunque vemos también que en la misma figura aparece una línea recta que hace referencia a una tendencia lineal de la pendiente de sustentación que nos hace pensar que al aumentar demasiado el alargamiento, nuestra aproximación teórica (con el código del programa) se vuelve inexacta, ya que debería tender a $2\pi$, según la teoría de perfiles delgados.
 
 \section{Efecto de la flecha en el $c_{L,\alpha}$ y el $x_{ac}$}
 
 \begin{figure}[H]
   \begin{tikzpicture}
     \begin{axis}[
-      width=0.85\textwidth,
-      height=0.4\textwidth,
+      width=0.8\textwidth,
+      height=0.3\textwidth,
       axis y line*=left,
       xlabel={$\Lambda_{LE}$~[$\degree$]},
       ylabel={$c_{L,\alpha}$~[$1/\degree$]},
@@ -129,8 +133,8 @@
       \label{plot:hw2_2_cLalpha}
     \end{axis}
     \begin{axis}[
-      width=0.85\textwidth,
-      height=0.4\textwidth,
+      width=0.8\textwidth,
+      height=0.3\textwidth,
       axis y line*=right,
       axis x line=none,
       xlabel={$\Lambda_{LE}$~[$\degree$]},
@@ -145,17 +149,23 @@
       \addlegendimage{/pgfplots/refstyle=plot:hw2_2_xac}\addlegendentry{$x_{ac}$}
     \end{axis}
   \end{tikzpicture}
-  \caption{Caption}
+  \caption{Pendiente de sustentación y centro aerodinámico en función de la flecha}
   \label{fig:hw2_2}
 \end{figure}
+
+De la siguiente gráfica podemos apreciar como un aumento del ángulo de flecha deriva en una disminución del coeficiente de sustentación total dela ala, provocando una disminución de la eficiencia aerodinámica (CL/CD).
+
+Podemos concluir que, a bajas velocidades, aunque la flecha disminuye su capacidad a nivel aerodinámico, se consigue una mayor estabilidad, reduciendo la carga estructural.Además, para altas velocidades, aumenta el Mach crítico, disminuyendo los efectos de perturbaciones como ondas de choque, que reducen notablemente las prestaciones aerodinámicas del ala.
+
+Finalmente, podemos apreciar que el centro aerodinámico en el ala se retrasa a medida que aumenta la flecha, por simples relaciones geométricas.
 
 \section{Efecto del estrechamiento en la distribución de sustentación local}
 
 \begin{figure}[H]
   \begin{tikzpicture}
     \begin{axis}[
-      width=0.85\textwidth,
-      height=0.4\textwidth,
+      width=0.8\textwidth,
+      height=0.3\textwidth,
       xlabel={Cuerda~[\%]},
       ylabel={$c_{L}$},
       grid=major
@@ -212,18 +222,22 @@
       \addlegendimage{/pgfplots/refstyle=plot:hw2_3_1}\addlegendentry{$\lambda=1.0$}
     \end{axis}
   \end{tikzpicture}
-  \caption{Caption}
+  \caption{Distribución de la sustentación para diferentes valores de estrechamiento}
   \label{fig:hw2_3}
 \end{figure}
 
-\section{Efecto del estrechamiento y la flecha en el factor de eficiencia de Oswald}
+Según la teoría de perfiles delgados, un ala rectangular produce una distribución de coeficiente de sustentación elíptica, mientras que para un ala cuya planta sea elíptica, la distribución del coeficiente resulta una constante.
+
+Observando esta gráfica podemos comprobar de forma aproximada con un estrechamiento igual a la unidad, la distribución de CL es elíptica, mientras que a medida que lo disminuimos, la carga de sustentación disminuye en las puntas lo que provoca que el CL aumente en dichas zonas, como se puede apreciar en el siguiente gráfico.
+
+\section{Efecto del alargamiento y la flecha en el factor de eficiencia de Oswald}
 
 \begin{figure}[H]
   \begin{center}
     \begin{tikzpicture}
       \begin{axis}[
-        width=0.9\textwidth,
-        height=0.4\textwidth,
+        width=0.8\textwidth,
+        height=0.3\textwidth,
         xlabel={$\lambda$},
         ylabel={$e_0$},
         grid=major
@@ -245,17 +259,22 @@
         \addlegendimage{/pgfplots/refstyle=plot:hw2_4_aspect_10}\addlegendentry{$AR=10$}
       \end{axis}
     \end{tikzpicture}
-    \caption{Caption}
+    \caption{Efecto del alargamiento en el factor de eficiencia de Oswald}
     \label{fig:hw2_4_aspect}
   \end{center}
 \end{figure}
+
+El factor de Oswald puede definirse como factor de eficiencia ligado a la forma en planta del ala. Cuanto mayor es este factor, menor es el ángulo inducido. Para un ala elíptica, el factor de Oswald es el máximo (igual a uno), es decir, el ala elíptica es la que posee un menos coeficiente de resistencia inducida.
+En la gráfica podemos observar que, en primer lugar, para estrechamientos mayores, el factor de Oswald tiende a uno, concordando con lo dicho anteriormente. Además, podemos ver que el aumento del alargamiento provoca que el factor tienda más rápido a uno, és decir, se cumple que para un alargamiento que tienda a infinito, la pendiente de sustentación se acerca a la ideal, la del perfil.
+
+Visualmente, un alargamiento infinito puede relacionarse con un hilo de torbellino, lo que nos lleva a la teoría de perfiles delgados, donde obtenemos una pendiente de sustentación igual a 2pi.
 
 \begin{figure}[H]
   \begin{center}
     \begin{tikzpicture}
       \begin{axis}[
-        width=0.9\textwidth,
-        height=0.4\textwidth,
+        width=0.8\textwidth,
+        height=0.3\textwidth,
         xlabel={$\lambda$},
         ylabel={$e_0$},
         grid=major
@@ -277,54 +296,100 @@
         \addlegendimage{/pgfplots/refstyle=plot:hw2_4_sweep_60}\addlegendentry{$\Lambda_{c/4}=60$}
       \end{axis}
     \end{tikzpicture}
-    \caption{Caption}
+    \caption{Efecto de la flecha en el factor de eficiencia de Oswald}
     \label{fig:hw2_4_sweep}
   \end{center}
 \end{figure}
 
-\section{asdasd}
+De la figura podemos apreciar que a medida que se aumenta la flecha, el ala tiene un menor factor de Oswald, eso es debido a que, como se ha comentado anteriormente, la flecha reduce la eficiencia aerodinámica. Por lo tanto, deducimos que el factor de Oswald disminuirá a medida que disminuye la eficiciencia aerodinámica.
+
+\section{Distribución básica y adicional de sustentación}
 
 \begin{figure}[H]
   \begin{center}
     \begin{tikzpicture}
       \begin{axis}[
-        width=0.9\textwidth,
-        height=0.4\textwidth,
+        width=0.8\textwidth,
+        height=0.3\textwidth,
         xlabel={y},
-        ylabel={some weird shit},
+        ylabel={$c_l$},
         grid=major
         ]
         \addplot+[smooth,mark=none] table [
             x index=0, y index=1, col sep=comma, header=false
-            ]{data/hw2_5_cly.csv};
-        \label{plot:hw2_5_cly}
+            ]{data/hw2_5_lift.csv};
+        \label{plot:hw2_5_basic_lift}
+        \addplot+[smooth,mark=none] table [
+            x index=0, y index=2, col sep=comma, header=false
+            ]{data/hw2_5_lift.csv};
+        \label{plot:hw2_5_additional_lift}
+        \addplot+[smooth,mark=none] table [
+            x index=0, y index=1, col sep=comma, header=false
+            ]{data/hw2_5_lift_flap.csv};
+        \label{plot:hw2_5_basic_lift_flap}
+        \addlegendimage{/pgfplots/refstyle=plot:hw2_5_basic_lift}\addlegendentry{$c_{l_b}, \eta=0\degree$}
+        \addlegendimage{/pgfplots/refstyle=plot:hw2_5_additional_lift}\addlegendentry{$c_{l_a}, \eta=0\degree$}
+        \addlegendimage{/pgfplots/refstyle=plot:hw2_5_basic_lift_flap}\addlegendentry{$c_{l_b}, \eta=10\degree$}
       \end{axis}
     \end{tikzpicture}
-    \caption{Caption}
-    \label{fig:hw2_5_cly}
+    \caption{Distribuciones de $c_l$ con y sin flap}
+    \label{fig:hw2_5_lift}
   \end{center}
 \end{figure}
+
+\pgfplotstableread[col sep=comma, header=false]{data/hw2_5_max.csv}\maxtable
+\pgfplotstableread[col sep=comma, header=false]{data/hw2_5_max_flap.csv}\maxflaptable
 
 \begin{figure}[H]
   \begin{center}
     \begin{tikzpicture}
       \begin{axis}[
-        width=0.9\textwidth,
-        height=0.4\textwidth,
+        width=0.8\textwidth,
+        height=0.3\textwidth,
         xlabel={y},
-        ylabel={some weird shit},
-        grid=major
+        ylabel={$c_l$},
+        grid=major,
+        restrict x to domain*=-0.5:0.5
         ]
-        \addplot+[smooth,mark=none] table [
-            x index=0, y index=1, col sep=comma, header=false
-            ]{data/hw2_5_alpha_i.csv};
-        \label{plot:hw2_5_alpha_i}
+        % \addplot+[smooth,mark=none] table [
+        %     x index=0, y index=3, col sep=comma, header=false
+        %     ]{data/hw2_5_lift.csv};
+        % \label{plot:hw2_5_total_lift}
+        % \addplot+[smooth,mark=none] table [
+        %     x index=0, y index=3, col sep=comma, header=false
+        %     ]{data/hw2_5_lift_flap.csv};
+        % \label{plot:hw2_5_total_lift_flap}
+        \pgfplotstablegetelem{0}{0}\of{\maxtable}
+        \let\expression=\pgfplotsretval
+        \addplot+[smooth,mark=none]{\expression};
+        \label{plot:hw2_5_clmax}
+        \pgfplotstablegetelem{0}{0}\of{\maxflaptable}
+        \let\expression=\pgfplotsretval
+        \addplot+[smooth,mark=none]{\expression};
+        \label{plot:hw2_5_clmax_flap}
+        % \addlegendimage{/pgfplots/refstyle=plot:hw2_5_total_lift}\addlegendentry{$c_{l}, \eta=0\degree$}
+        % \addlegendimage{/pgfplots/refstyle=plot:hw2_5_total_lift_flap}\addlegendentry{$c_{l}, \eta=10\degree$}
+        \addlegendimage{/pgfplots/refstyle=plot:hw2_5_clmax}\addlegendentry{$c_{l,max}$}
+        \addlegendimage{/pgfplots/refstyle=plot:hw2_5_clmax_flap}\addlegendentry{$c_{l,max,flap}$}
       \end{axis}
     \end{tikzpicture}
-    \caption{Caption}
-    \label{fig:hw2_5_alpha_i}
+    \caption{$c_{l,max}$ con y sin flap}
+    \label{fig:hw2_5_max}
   \end{center}
 \end{figure}
+
+El siguiente gráfico pretende mostrar el coeficiente de sustentación básico y adicional, que son dos elementos fundamentales para el estudio de ala finita. En el primer caso hemos calculado hemos calculado estos coeficientes para una configuración sin flap y con flap para un perfil NACA 2412. El Cl adicional no varía por el hecho de tener flap, ya que hace referencia a la planta de ala, por lo tanto se mantiene constante para la configuración con flap y sin flap.
+
+Podemos apreciar también, que el área contenida por el CL adicional resulta aproximadamente uno, hecho que concuerda con la teoría estudiada en clase, donde la integral de este coeficiente por la distribución de cuerda a lo largo de la envergadura debe ser uno.
+
+Refiriéndonos ahora al coeficiente de sustentación básico, sabemos que este depende de factores como la torsión, el ángulo de sustentación nula, etc... Este coeficiente encierrra un área aproximadamente igual a cero. Fijándonos en el coeficiente de sustentación básico sin flap, éste está sometido a un ángulo de ataque igual a cero, lo que implica una circulación igual a cero, resultando un coeficiente de sustentación básico igual a cero, demostrando así que encierra un área nula.
+En contraste con el Clbásico sin flap, el Clbásico con deflexión del flap presenta unas perturbaciones en las distribución del Cl local debidas a una variación del ángulo de sustentación nula. A pesar de esto, sigue cumpliéndose que el área que encierra es igual a uno.
+Por otra parte, nos piden calcular el coeficiente de momento libre y el centro aerodinámico, cuyos valores obtenidos son -0.076 y 0.28237, respectivamente.
+
+Por último, en la siguiente figura mostramos los valores de Cl máximos tanto para el ala sin flap como con flap. Dichos valores fueron escogidos como los mínimos entre los Cl máximos de cada sección. Una vez calculados, podemos hallar los ángulos geométricos máximos, con los que se alcanzarían tales coeficientes de sustentación.
+Haciendo referencia a los ángulos, los valores que se obtienen son, respectivamente, 12.302 y 18.467º.
+
+Desde el punto de vista estructural, hemos comentado anteriormente que un mayor ángulo de flecha disminuye la eficiencia aerodinámica, aumenta la estabilidad, y disminuye cargas estructurales en el encastre.
 
 \section{Apéndice: Código}
 
@@ -338,6 +403,8 @@
 \lstinputlisting[language=Matlab]{hw2_3.m}
 \lstinputlisting[language=Matlab]{hw2_4_aspect.m}
 \lstinputlisting[language=Matlab]{hw2_4_sweep.m}
+\lstinputlisting[language=Matlab]{hw2_5_lift.m}
+\lstinputlisting[language=Matlab]{hw2_5_moment.m}
 \lstinputlisting[language=Matlab]{shia_lebouf.m}
 
 \end{document}
